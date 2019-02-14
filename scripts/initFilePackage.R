@@ -11,12 +11,12 @@ dir.create(projectName)
 ### first, copying existing file package
 ### (some files may have needed to be modified manually)
 print(paste0("Copying existing file package to './", projectName, "'"))
-file.copy(sourceCBM,
+file.copy(sourceGCBM,
           ".",
           overwrite = T,
           recursive = T,
           copy.mode = TRUE)
-file.rename(gsub("../", "", sourceCBM),
+file.rename(gsub("../", "", sourceGCBM),
             projectName)
 
 ### raw spatial layers
@@ -32,7 +32,6 @@ file.copy(inputDbDir,
           projectName,
           overwrite = T,
           recursive = T)
-
 print(paste0("Copying figures to './", projectName, "/figures'"))
 
 ### associated figures

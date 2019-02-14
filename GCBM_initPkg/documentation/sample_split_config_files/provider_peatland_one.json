@@ -1,0 +1,65 @@
+{   
+"Providers": { 
+	"SQLite": {
+		"path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\peatland_input.db",
+		"type": "SQLite"
+	},
+	"RasterTiled": {
+		"layers": [
+			{
+				"layer_prefix": "admin_boundary_moja",
+				"name": "admin_boundary",
+				"layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\admin_boundary_moja"
+			},
+			{
+				"layer_prefix": "age_moja",
+				"name": "age",
+				"layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\age_moja"
+			},
+			{
+				"layer_prefix": "drought_class_moja",
+				"name": "drought_class",
+				"layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\drought_class_moja"
+			},
+			{
+				"layer_prefix": "eco_boundary_moja",
+				"name": "eco_boundary",
+				"layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\eco_boundary_moja"
+			},
+			{
+				"layer_prefix": "fire_return_interval_moja",
+				"name": "fire_return_interval",
+				"layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\fire_return_interval_moja"
+			},
+			{
+				"layer_prefix": "fire_year_moja",
+				"name": "fire_year",
+				"layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\fire_year_moja"
+			},
+			{
+				"layer_prefix": "FMZ_ID_moja",
+				"name": "FMZ_ID",
+				"layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\FMZ_ID_moja"
+			},
+			{
+				"layer_prefix": "LdSpp_moja",
+				"name": "LdSpp",
+				"layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\LdSpp_moja"
+			},
+			{
+				"layer_prefix": "mean_annual_temperature_moja",
+				"name": "mean_annual_temperature",
+				"layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\mean_annual_temperature_moja"
+			}
+		],
+		"blockLonSize": 0.1,
+		"tileLatSize": 1.0,
+		"tileLonSize": 1.0,
+		"library": "moja.modules.zipper",
+		"cellLatSize": 0.001,
+		"cellLonSize": 0.001,
+		"blockLatSize": 0.1,
+		"type": "RasterTiledZipper"
+	} 
+}	
+}

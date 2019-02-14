@@ -22,7 +22,7 @@ require(raster)
 sourceDir <- "D:/regenFailureRiskAssessmentData_phase2/2019-01-07_coupe0.62_recup70_contrainteAge"
 replicates <- "001"  ### may also be a vector, a loop would be needed for multiple simulations
 simID <- replicates
-sourceCBM <- "../CBM_initPkg"
+sourceGCBM <- "../GCBM_initPkg"
 projectName <- "test"
 yearInit <- 2015
 simDuration <- 50

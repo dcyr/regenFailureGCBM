@@ -1,0 +1,4 @@
+syntax: glob
+*.pyc
+*.orig
+.settings/org.eclipse.core.resources.prefs

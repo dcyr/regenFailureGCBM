@@ -1,0 +1,24 @@
+2018-09-05 14:14:42,851 - app.QueryRunner - INFO - QueryRunner Configuration
+2018-09-05 14:14:42,851 - app.QueryRunner - INFO - 
+               [Config]
+               Output Path: .
+               Log Path: .\logs\CompiledResultsToMDB
+               Log Queries: True
+               Overwrite Working DBs: True
+               Target databases: 
+               Title: Rollup
+               Original DB Path: <new>
+               Working DB Path: D:\Standalone_Template\processed_output\compiled_gcbm_output.accdb
+               
+               
+2018-09-05 14:14:42,852 - app.QueryRunner - INFO - Running.
+2018-09-05 14:14:42,855 - app.PreprocessorTask.Rollup - INFO - Initializing database...
+2018-09-05 14:14:42,963 - app.DataImporterTask.Rollup - INFO - Executing data import 1 of 4: v_disturbance_indicators.
+2018-09-05 14:14:43,000 - app.AccessDatabase - INFO - Imported 10 rows.
+2018-09-05 14:14:43,035 - app.DataImporterTask.Rollup - INFO - Executing data import 2 of 4: v_flux_indicators.
+2018-09-05 14:14:43,457 - app.AccessDatabase - INFO - Imported 2511 rows.
+2018-09-05 14:14:43,493 - app.DataImporterTask.Rollup - INFO - Executing data import 3 of 4: v_stock_change_indicators.
+2018-09-05 14:14:43,776 - app.AccessDatabase - INFO - Imported 1821 rows.
+2018-09-05 14:14:43,812 - app.DataImporterTask.Rollup - INFO - Executing data import 4 of 4: v_pool_indicators.
+2018-09-05 14:14:44,007 - app.AccessDatabase - INFO - Imported 990 rows.
+2018-09-05 14:14:44,043 - app.QueryRunner - INFO - Completed successfully.

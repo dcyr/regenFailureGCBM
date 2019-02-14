@@ -1,0 +1,101 @@
+{
+    "Libraries": {
+        "moja.modules.zipper": "external",
+        "moja.modules.cbm": "external"
+    },
+    "LocalDomain": {
+        "sequencer_library": "moja.modules.cbm",
+        "end_date": "2066/01/01",
+        "landUnitBuildSuccess": "landUnitBuildSuccess",
+        "simulateLandUnit": "simulateLandUnit",
+        "sequencer": "CBMSequencer",
+        "timing": "annual",
+        "type": "spatial_tiled",
+        "start_date": "2016/01/01",
+        "landscape": {
+            "num_threads": 16,
+            "tiles": [
+                {
+                    "y": 50,
+                    "x": -78,
+                    "index": 14502
+                },
+                {
+                    "y": 51,
+                    "x": -78,
+                    "index": 14142
+                },
+                {
+                    "y": 52,
+                    "x": -78,
+                    "index": 13782
+                },
+                {
+                    "y": 50,
+                    "x": -77,
+                    "index": 14503
+                },
+                {
+                    "y": 51,
+                    "x": -77,
+                    "index": 14143
+                },
+                {
+                    "y": 52,
+                    "x": -77,
+                    "index": 13783
+                },
+                {
+                    "y": 50,
+                    "x": -76,
+                    "index": 14504
+                },
+                {
+                    "y": 51,
+                    "x": -76,
+                    "index": 14144
+                },
+                {
+                    "y": 52,
+                    "x": -76,
+                    "index": 13784
+                },
+                {
+                    "y": 50,
+                    "x": -75,
+                    "index": 14505
+                },
+                {
+                    "y": 51,
+                    "x": -75,
+                    "index": 14145
+                },
+                {
+                    "y": 52,
+                    "x": -75,
+                    "index": 13785
+                },
+                {
+                    "y": 50,
+                    "x": -74,
+                    "index": 14506
+                },
+                {
+                    "y": 51,
+                    "x": -74,
+                    "index": 14146
+                },
+                {
+                    "y": 52,
+                    "x": -74,
+                    "index": 13786
+                }
+            ],
+            "provider": "RasterTiled",
+            "y_pixels": 100,
+            "x_pixels": 100,
+            "tile_size_x": 1.0,
+            "tile_size_y": 1.0
+        }
+    }
+}

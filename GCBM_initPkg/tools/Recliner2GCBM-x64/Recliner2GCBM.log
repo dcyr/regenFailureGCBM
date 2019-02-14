@@ -1,0 +1,32 @@
+2019-02-07 14:22:25,289 INFO - Creating GCBM input database
+2019-02-07 14:22:25,544 INFO - Loading 1 of 30: CBM Classic Spatial DDL.
+2019-02-07 14:22:26,244 INFO - Loading 2 of 30: Static land class data.
+2019-02-07 14:22:26,516 INFO - Loading 3 of 30: Static pool data.
+2019-02-07 14:22:26,765 INFO - Loading 4 of 30: Root parameters.
+2019-02-07 14:22:27,042 INFO - Loading 5 of 30: DOM pools.
+2019-02-07 14:22:27,380 INFO - Loading 6 of 30: Admin regions.
+2019-02-07 14:22:27,732 INFO - Loading 7 of 30: Eco regions.
+2019-02-07 14:22:27,982 INFO - Loading 8 of 30: Decay (DOM) parameters.
+2019-02-07 14:22:28,257 INFO - Loading 9 of 30: Disturbance types.
+2019-02-07 14:22:28,699 INFO - Loading 10 of 30: Stump parameters.
+2019-02-07 14:22:28,999 INFO - Loading 11 of 30: Turnover parameters.
+2019-02-07 14:22:29,249 INFO - Loading 12 of 30: Admin boundaries.
+2019-02-07 14:22:29,532 INFO - Loading 13 of 30: Eco boundaries.
+2019-02-07 14:22:29,766 INFO - Loading 14 of 30: Spinup parameters.
+2019-02-07 14:22:30,024 INFO - Loading 15 of 30: Spatial units.
+2019-02-07 14:22:30,266 INFO - Loading 16 of 30: Disturbance matrix names.
+2019-02-07 14:22:30,558 INFO - Loading 17 of 30: Disturbance matrix values.
+2019-02-07 14:22:32,433 INFO - Loading 18 of 30: Disturbance matrix associations.
+2019-02-07 14:22:38,784 INFO - Loading 19 of 30: Forest types.
+2019-02-07 14:22:39,083 INFO - Loading 20 of 30: Genus types.
+2019-02-07 14:22:39,392 INFO - Loading 21 of 30: Species types.
+2019-02-07 14:22:39,725 INFO - Loading 22 of 30: Volume to biomass parameters.
+2019-02-07 14:22:40,159 INFO - Loading 23 of 30: Volume to biomass parameter associations.
+2019-02-07 14:22:41,692 INFO - Loading 24 of 30: Growth multiplier series.
+2019-02-07 14:22:42,176 INFO - Loading 25 of 30: Growth multiplier values.
+2019-02-07 14:22:42,701 INFO - Loading 26 of 30: Growth multiplier associations.
+2019-02-07 14:22:43,158 INFO - Loading 27 of 30: Classifier: coverType.
+2019-02-07 14:22:43,509 INFO - Loading 28 of 30: Classifier: fertility.
+2019-02-07 14:22:43,776 INFO - Loading 29 of 30: Classifier: relDensity.
+2019-02-07 14:22:44,122 INFO - Loading 30 of 30: Growth curves.
+2019-02-07 14:22:44,620 INFO - Finished.

@@ -1,0 +1,59 @@
+{
+  "Modules": {  
+    "MossDisturbanceModule": {
+		"enabled": true,
+		"order": 4,
+		"library": "moja.modules.cbm"
+    },
+	"PeatlandDisturbanceModule": {
+		"enabled": true,
+		"order": 5,
+		"library": "moja.modules.cbm"
+    },
+	"PeatlandPrepareModule": {
+		"enabled": true,
+		"order": 11,
+		"library": "moja.modules.cbm"
+    },
+    "SmallTreeGrowthModule": {
+		"enabled": true,
+		"order": 12,
+		"library": "moja.modules.cbm"
+    },
+    "PeatlandDecayModule": {
+		"enabled": true,
+		"order": 13,
+		"library": "moja.modules.cbm"
+    },
+	 "PeatlandTurnoverModule": {
+		"enabled": true,
+		"order": 14,
+		"library": "moja.modules.cbm"
+    },
+	"PeatlandGrowthModule": {
+		"enabled": true,
+		"order": 15,
+		"library": "moja.modules.cbm"
+    },
+    "CBMMossDecayModule": {
+		"enabled": true,
+		"order": 16,
+		"library": "moja.modules.cbm"
+    },
+    "CBMMossTurnoverModule": {
+		"enabled": true,
+		"order": 17,
+		"library": "moja.modules.cbm"
+    },
+    "CBMMossGrowthModule": {
+		"enabled": true,
+		"order": 18,
+		"library": "moja.modules.cbm"
+    },
+	"PeatlandSpinupNext": {
+		"enabled": true,
+		"order": 19,
+		"library": "moja.modules.cbm"
+    }
+  }
+}

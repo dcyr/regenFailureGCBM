@@ -1,0 +1,1 @@
+ALTER TABLE :table ADD CONSTRAINT :{table}_:{column}_fk FOREIGN KEY (:column) REFERENCES :foreign_table (:foreign_column) MATCH FULL
