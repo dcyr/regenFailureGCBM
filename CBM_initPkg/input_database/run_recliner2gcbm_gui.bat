@@ -1,1 +1,0 @@
-start ..\tools\recliner2gcbm-x64\Recliner2GCBM-GUI.exe

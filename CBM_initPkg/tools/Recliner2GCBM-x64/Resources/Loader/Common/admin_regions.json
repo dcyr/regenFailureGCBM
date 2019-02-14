@@ -1,7 +1,0 @@
-﻿{
-    "SQLLoaderMapping": {
-        "name": "Admin regions",
-        "fetch_sql": "SELECT name AS AdminBoundaryName FROM admin_boundary",
-        "load_sql": "INSERT INTO admin_region (name) VALUES (@AdminBoundaryName)"
-    }
-}

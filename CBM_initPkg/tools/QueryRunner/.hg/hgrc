@@ -1,5 +1,0 @@
-[paths]
-default=R:\Mercurial\QueryRunner
-[tortoisehg]
-autoresolve=False
-postpull=update

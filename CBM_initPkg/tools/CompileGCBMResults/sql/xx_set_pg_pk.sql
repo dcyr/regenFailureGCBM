@@ -1,1 +1,0 @@
-ALTER TABLE :table ADD CONSTRAINT :{table}_pk PRIMARY KEY (:column)
