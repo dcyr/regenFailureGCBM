@@ -1,0 +1,585 @@
+{
+    "Providers": {
+        "SQLite": {
+            "path": "..\\input_database\\gcbm_input.db",
+            "type": "SQLite"
+        },
+        "RasterTiled": {
+            "layers": [
+                {
+                    "layer_prefix": "fire_2030_moja",
+                    "name": "fire_2030",
+                    "layer_path": "..\\layers\\tiled\\fire_2030_moja"
+                },
+                {
+                    "layer_prefix": "cc_2054_moja",
+                    "name": "cc_2054",
+                    "layer_path": "..\\layers\\tiled\\cc_2054_moja"
+                },
+                {
+                    "layer_prefix": "salv_2030_moja",
+                    "name": "salv_2030",
+                    "layer_path": "..\\layers\\tiled\\salv_2030_moja"
+                },
+                {
+                    "layer_prefix": "fire_2057_moja",
+                    "name": "fire_2057",
+                    "layer_path": "..\\layers\\tiled\\fire_2057_moja"
+                },
+                {
+                    "layer_prefix": "cc_2026_moja",
+                    "name": "cc_2026",
+                    "layer_path": "..\\layers\\tiled\\cc_2026_moja"
+                },
+                {
+                    "layer_prefix": "fire_2036_moja",
+                    "name": "fire_2036",
+                    "layer_path": "..\\layers\\tiled\\fire_2036_moja"
+                },
+                {
+                    "layer_prefix": "fire_2056_moja",
+                    "name": "fire_2056",
+                    "layer_path": "..\\layers\\tiled\\fire_2056_moja"
+                },
+                {
+                    "layer_prefix": "fire_2026_moja",
+                    "name": "fire_2026",
+                    "layer_path": "..\\layers\\tiled\\fire_2026_moja"
+                },
+                {
+                    "layer_prefix": "cc_2041_moja",
+                    "name": "cc_2041",
+                    "layer_path": "..\\layers\\tiled\\cc_2041_moja"
+                },
+                {
+                    "layer_prefix": "cc_2028_moja",
+                    "name": "cc_2028",
+                    "layer_path": "..\\layers\\tiled\\cc_2028_moja"
+                },
+                {
+                    "layer_prefix": "cc_2057_moja",
+                    "name": "cc_2057",
+                    "layer_path": "..\\layers\\tiled\\cc_2057_moja"
+                },
+                {
+                    "layer_prefix": "cc_2031_moja",
+                    "name": "cc_2031",
+                    "layer_path": "..\\layers\\tiled\\cc_2031_moja"
+                },
+                {
+                    "layer_prefix": "fire_2034_moja",
+                    "name": "fire_2034",
+                    "layer_path": "..\\layers\\tiled\\fire_2034_moja"
+                },
+                {
+                    "layer_prefix": "cc_2029_moja",
+                    "name": "cc_2029",
+                    "layer_path": "..\\layers\\tiled\\cc_2029_moja"
+                },
+                {
+                    "layer_prefix": "fire_2045_moja",
+                    "name": "fire_2045",
+                    "layer_path": "..\\layers\\tiled\\fire_2045_moja"
+                },
+                {
+                    "layer_prefix": "fire_2018_moja",
+                    "name": "fire_2018",
+                    "layer_path": "..\\layers\\tiled\\fire_2018_moja"
+                },
+                {
+                    "layer_prefix": "fire_2058_moja",
+                    "name": "fire_2058",
+                    "layer_path": "..\\layers\\tiled\\fire_2058_moja"
+                },
+                {
+                    "layer_prefix": "coverType_moja",
+                    "name": "coverType",
+                    "layer_path": "..\\layers\\tiled\\coverType_moja"
+                },
+                {
+                    "layer_prefix": "salv_2060_moja",
+                    "name": "salv_2060",
+                    "layer_path": "..\\layers\\tiled\\salv_2060_moja"
+                },
+                {
+                    "layer_prefix": "fire_2029_moja",
+                    "name": "fire_2029",
+                    "layer_path": "..\\layers\\tiled\\fire_2029_moja"
+                },
+                {
+                    "layer_prefix": "fire_2062_moja",
+                    "name": "fire_2062",
+                    "layer_path": "..\\layers\\tiled\\fire_2062_moja"
+                },
+                {
+                    "layer_prefix": "cc_2049_moja",
+                    "name": "cc_2049",
+                    "layer_path": "..\\layers\\tiled\\cc_2049_moja"
+                },
+                {
+                    "layer_prefix": "cc_2019_moja",
+                    "name": "cc_2019",
+                    "layer_path": "..\\layers\\tiled\\cc_2019_moja"
+                },
+                {
+                    "layer_prefix": "mean_annual_temperature_moja",
+                    "name": "mean_annual_temperature",
+                    "layer_path": "..\\layers\\tiled\\mean_annual_temperature_moja"
+                },
+                {
+                    "layer_prefix": "fire_2040_moja",
+                    "name": "fire_2040",
+                    "layer_path": "..\\layers\\tiled\\fire_2040_moja"
+                },
+                {
+                    "layer_prefix": "salv_2052_moja",
+                    "name": "salv_2052",
+                    "layer_path": "..\\layers\\tiled\\salv_2052_moja"
+                },
+                {
+                    "layer_prefix": "cc_2018_moja",
+                    "name": "cc_2018",
+                    "layer_path": "..\\layers\\tiled\\cc_2018_moja"
+                },
+                {
+                    "layer_prefix": "cc_2061_moja",
+                    "name": "cc_2061",
+                    "layer_path": "..\\layers\\tiled\\cc_2061_moja"
+                },
+                {
+                    "layer_prefix": "cc_2039_moja",
+                    "name": "cc_2039",
+                    "layer_path": "..\\layers\\tiled\\cc_2039_moja"
+                },
+                {
+                    "layer_prefix": "relDensity_moja",
+                    "name": "relDensity",
+                    "layer_path": "..\\layers\\tiled\\relDensity_moja"
+                },
+                {
+                    "layer_prefix": "fire_2046_moja",
+                    "name": "fire_2046",
+                    "layer_path": "..\\layers\\tiled\\fire_2046_moja"
+                },
+                {
+                    "layer_prefix": "cc_2050_moja",
+                    "name": "cc_2050",
+                    "layer_path": "..\\layers\\tiled\\cc_2050_moja"
+                },
+                {
+                    "layer_prefix": "salv_2024_moja",
+                    "name": "salv_2024",
+                    "layer_path": "..\\layers\\tiled\\salv_2024_moja"
+                },
+                {
+                    "layer_prefix": "fire_2028_moja",
+                    "name": "fire_2028",
+                    "layer_path": "..\\layers\\tiled\\fire_2028_moja"
+                },
+                {
+                    "layer_prefix": "cc_2020_moja",
+                    "name": "cc_2020",
+                    "layer_path": "..\\layers\\tiled\\cc_2020_moja"
+                },
+                {
+                    "layer_prefix": "cc_2036_moja",
+                    "name": "cc_2036",
+                    "layer_path": "..\\layers\\tiled\\cc_2036_moja"
+                },
+                {
+                    "layer_prefix": "fire_2033_moja",
+                    "name": "fire_2033",
+                    "layer_path": "..\\layers\\tiled\\fire_2033_moja"
+                },
+                {
+                    "layer_prefix": "salv_2018_moja",
+                    "name": "salv_2018",
+                    "layer_path": "..\\layers\\tiled\\salv_2018_moja"
+                },
+                {
+                    "layer_prefix": "salv_2016_moja",
+                    "name": "salv_2016",
+                    "layer_path": "..\\layers\\tiled\\salv_2016_moja"
+                },
+                {
+                    "layer_prefix": "fire_2032_moja",
+                    "name": "fire_2032",
+                    "layer_path": "..\\layers\\tiled\\fire_2032_moja"
+                },
+                {
+                    "layer_prefix": "fire_2060_moja",
+                    "name": "fire_2060",
+                    "layer_path": "..\\layers\\tiled\\fire_2060_moja"
+                },
+                {
+                    "layer_prefix": "cc_2030_moja",
+                    "name": "cc_2030",
+                    "layer_path": "..\\layers\\tiled\\cc_2030_moja"
+                },
+                {
+                    "layer_prefix": "fire_2055_moja",
+                    "name": "fire_2055",
+                    "layer_path": "..\\layers\\tiled\\fire_2055_moja"
+                },
+                {
+                    "layer_prefix": "cc_2027_moja",
+                    "name": "cc_2027",
+                    "layer_path": "..\\layers\\tiled\\cc_2027_moja"
+                },
+                {
+                    "layer_prefix": "cc_2032_moja",
+                    "name": "cc_2032",
+                    "layer_path": "..\\layers\\tiled\\cc_2032_moja"
+                },
+                {
+                    "layer_prefix": "cc_2017_moja",
+                    "name": "cc_2017",
+                    "layer_path": "..\\layers\\tiled\\cc_2017_moja"
+                },
+                {
+                    "layer_prefix": "cc_2043_moja",
+                    "name": "cc_2043",
+                    "layer_path": "..\\layers\\tiled\\cc_2043_moja"
+                },
+                {
+                    "layer_prefix": "fire_2031_moja",
+                    "name": "fire_2031",
+                    "layer_path": "..\\layers\\tiled\\fire_2031_moja"
+                },
+                {
+                    "layer_prefix": "initial_age_moja",
+                    "name": "initial_age",
+                    "layer_path": "..\\layers\\tiled\\initial_age_moja"
+                },
+                {
+                    "layer_prefix": "fire_2020_moja",
+                    "name": "fire_2020",
+                    "layer_path": "..\\layers\\tiled\\fire_2020_moja"
+                },
+                {
+                    "layer_prefix": "cc_2021_moja",
+                    "name": "cc_2021",
+                    "layer_path": "..\\layers\\tiled\\cc_2021_moja"
+                },
+                {
+                    "layer_prefix": "fire_2043_moja",
+                    "name": "fire_2043",
+                    "layer_path": "..\\layers\\tiled\\fire_2043_moja"
+                },
+                {
+                    "layer_prefix": "salv_2058_moja",
+                    "name": "salv_2058",
+                    "layer_path": "..\\layers\\tiled\\salv_2058_moja"
+                },
+                {
+                    "layer_prefix": "cc_2062_moja",
+                    "name": "cc_2062",
+                    "layer_path": "..\\layers\\tiled\\cc_2062_moja"
+                },
+                {
+                    "layer_prefix": "fire_2035_moja",
+                    "name": "fire_2035",
+                    "layer_path": "..\\layers\\tiled\\fire_2035_moja"
+                },
+                {
+                    "layer_prefix": "salv_2043_moja",
+                    "name": "salv_2043",
+                    "layer_path": "..\\layers\\tiled\\salv_2043_moja"
+                },
+                {
+                    "layer_prefix": "salv_2028_moja",
+                    "name": "salv_2028",
+                    "layer_path": "..\\layers\\tiled\\salv_2028_moja"
+                },
+                {
+                    "layer_prefix": "cc_2045_moja",
+                    "name": "cc_2045",
+                    "layer_path": "..\\layers\\tiled\\cc_2045_moja"
+                },
+                {
+                    "layer_prefix": "cc_2035_moja",
+                    "name": "cc_2035",
+                    "layer_path": "..\\layers\\tiled\\cc_2035_moja"
+                },
+                {
+                    "layer_prefix": "cc_2051_moja",
+                    "name": "cc_2051",
+                    "layer_path": "..\\layers\\tiled\\cc_2051_moja"
+                },
+                {
+                    "layer_prefix": "salv_2020_moja",
+                    "name": "salv_2020",
+                    "layer_path": "..\\layers\\tiled\\salv_2020_moja"
+                },
+                {
+                    "layer_prefix": "cc_2034_moja",
+                    "name": "cc_2034",
+                    "layer_path": "..\\layers\\tiled\\cc_2034_moja"
+                },
+                {
+                    "layer_prefix": "salv_2022_moja",
+                    "name": "salv_2022",
+                    "layer_path": "..\\layers\\tiled\\salv_2022_moja"
+                },
+                {
+                    "layer_prefix": "cc_2016_moja",
+                    "name": "cc_2016",
+                    "layer_path": "..\\layers\\tiled\\cc_2016_moja"
+                },
+                {
+                    "layer_prefix": "fire_2061_moja",
+                    "name": "fire_2061",
+                    "layer_path": "..\\layers\\tiled\\fire_2061_moja"
+                },
+                {
+                    "layer_prefix": "cc_2064_moja",
+                    "name": "cc_2064",
+                    "layer_path": "..\\layers\\tiled\\cc_2064_moja"
+                },
+                {
+                    "layer_prefix": "cc_2065_moja",
+                    "name": "cc_2065",
+                    "layer_path": "..\\layers\\tiled\\cc_2065_moja"
+                },
+                {
+                    "layer_prefix": "cc_2025_moja",
+                    "name": "cc_2025",
+                    "layer_path": "..\\layers\\tiled\\cc_2025_moja"
+                },
+                {
+                    "layer_prefix": "cc_2038_moja",
+                    "name": "cc_2038",
+                    "layer_path": "..\\layers\\tiled\\cc_2038_moja"
+                },
+                {
+                    "layer_prefix": "cc_2037_moja",
+                    "name": "cc_2037",
+                    "layer_path": "..\\layers\\tiled\\cc_2037_moja"
+                },
+                {
+                    "layer_prefix": "salv_2021_moja",
+                    "name": "salv_2021",
+                    "layer_path": "..\\layers\\tiled\\salv_2021_moja"
+                },
+                {
+                    "layer_prefix": "fire_2023_moja",
+                    "name": "fire_2023",
+                    "layer_path": "..\\layers\\tiled\\fire_2023_moja"
+                },
+                {
+                    "layer_prefix": "cc_2042_moja",
+                    "name": "cc_2042",
+                    "layer_path": "..\\layers\\tiled\\cc_2042_moja"
+                },
+                {
+                    "layer_prefix": "fire_2039_moja",
+                    "name": "fire_2039",
+                    "layer_path": "..\\layers\\tiled\\fire_2039_moja"
+                },
+                {
+                    "layer_prefix": "cc_2060_moja",
+                    "name": "cc_2060",
+                    "layer_path": "..\\layers\\tiled\\cc_2060_moja"
+                },
+                {
+                    "layer_prefix": "cc_2053_moja",
+                    "name": "cc_2053",
+                    "layer_path": "..\\layers\\tiled\\cc_2053_moja"
+                },
+                {
+                    "layer_prefix": "fire_2038_moja",
+                    "name": "fire_2038",
+                    "layer_path": "..\\layers\\tiled\\fire_2038_moja"
+                },
+                {
+                    "layer_prefix": "salv_2057_moja",
+                    "name": "salv_2057",
+                    "layer_path": "..\\layers\\tiled\\salv_2057_moja"
+                },
+                {
+                    "layer_prefix": "cc_2048_moja",
+                    "name": "cc_2048",
+                    "layer_path": "..\\layers\\tiled\\cc_2048_moja"
+                },
+                {
+                    "layer_prefix": "cc_2033_moja",
+                    "name": "cc_2033",
+                    "layer_path": "..\\layers\\tiled\\cc_2033_moja"
+                },
+                {
+                    "layer_prefix": "fire_2019_moja",
+                    "name": "fire_2019",
+                    "layer_path": "..\\layers\\tiled\\fire_2019_moja"
+                },
+                {
+                    "layer_prefix": "cc_2044_moja",
+                    "name": "cc_2044",
+                    "layer_path": "..\\layers\\tiled\\cc_2044_moja"
+                },
+                {
+                    "layer_prefix": "fire_2027_moja",
+                    "name": "fire_2027",
+                    "layer_path": "..\\layers\\tiled\\fire_2027_moja"
+                },
+                {
+                    "layer_prefix": "salv_2036_moja",
+                    "name": "salv_2036",
+                    "layer_path": "..\\layers\\tiled\\salv_2036_moja"
+                },
+                {
+                    "layer_prefix": "cc_2023_moja",
+                    "name": "cc_2023",
+                    "layer_path": "..\\layers\\tiled\\cc_2023_moja"
+                },
+                {
+                    "layer_prefix": "fire_2016_moja",
+                    "name": "fire_2016",
+                    "layer_path": "..\\layers\\tiled\\fire_2016_moja"
+                },
+                {
+                    "layer_prefix": "salv_2033_moja",
+                    "name": "salv_2033",
+                    "layer_path": "..\\layers\\tiled\\salv_2033_moja"
+                },
+                {
+                    "layer_prefix": "cc_2059_moja",
+                    "name": "cc_2059",
+                    "layer_path": "..\\layers\\tiled\\cc_2059_moja"
+                },
+                {
+                    "layer_prefix": "cc_2040_moja",
+                    "name": "cc_2040",
+                    "layer_path": "..\\layers\\tiled\\cc_2040_moja"
+                },
+                {
+                    "layer_prefix": "cc_2058_moja",
+                    "name": "cc_2058",
+                    "layer_path": "..\\layers\\tiled\\cc_2058_moja"
+                },
+                {
+                    "layer_prefix": "salv_2032_moja",
+                    "name": "salv_2032",
+                    "layer_path": "..\\layers\\tiled\\salv_2032_moja"
+                },
+                {
+                    "layer_prefix": "salv_2050_moja",
+                    "name": "salv_2050",
+                    "layer_path": "..\\layers\\tiled\\salv_2050_moja"
+                },
+                {
+                    "layer_prefix": "salv_2046_moja",
+                    "name": "salv_2046",
+                    "layer_path": "..\\layers\\tiled\\salv_2046_moja"
+                },
+                {
+                    "layer_prefix": "cc_2047_moja",
+                    "name": "cc_2047",
+                    "layer_path": "..\\layers\\tiled\\cc_2047_moja"
+                },
+                {
+                    "layer_prefix": "salv_2035_moja",
+                    "name": "salv_2035",
+                    "layer_path": "..\\layers\\tiled\\salv_2035_moja"
+                },
+                {
+                    "layer_prefix": "fire_2063_moja",
+                    "name": "fire_2063",
+                    "layer_path": "..\\layers\\tiled\\fire_2063_moja"
+                },
+                {
+                    "layer_prefix": "cc_2056_moja",
+                    "name": "cc_2056",
+                    "layer_path": "..\\layers\\tiled\\cc_2056_moja"
+                },
+                {
+                    "layer_prefix": "cc_2055_moja",
+                    "name": "cc_2055",
+                    "layer_path": "..\\layers\\tiled\\cc_2055_moja"
+                },
+                {
+                    "layer_prefix": "fire_2050_moja",
+                    "name": "fire_2050",
+                    "layer_path": "..\\layers\\tiled\\fire_2050_moja"
+                },
+                {
+                    "layer_prefix": "salv_2040_moja",
+                    "name": "salv_2040",
+                    "layer_path": "..\\layers\\tiled\\salv_2040_moja"
+                },
+                {
+                    "layer_prefix": "fertility_moja",
+                    "name": "fertility",
+                    "layer_path": "..\\layers\\tiled\\fertility_moja"
+                },
+                {
+                    "layer_prefix": "fire_2048_moja",
+                    "name": "fire_2048",
+                    "layer_path": "..\\layers\\tiled\\fire_2048_moja"
+                },
+                {
+                    "layer_prefix": "cc_2024_moja",
+                    "name": "cc_2024",
+                    "layer_path": "..\\layers\\tiled\\cc_2024_moja"
+                },
+                {
+                    "layer_prefix": "cc_2063_moja",
+                    "name": "cc_2063",
+                    "layer_path": "..\\layers\\tiled\\cc_2063_moja"
+                },
+                {
+                    "layer_prefix": "fire_2021_moja",
+                    "name": "fire_2021",
+                    "layer_path": "..\\layers\\tiled\\fire_2021_moja"
+                },
+                {
+                    "layer_prefix": "fire_2042_moja",
+                    "name": "fire_2042",
+                    "layer_path": "..\\layers\\tiled\\fire_2042_moja"
+                },
+                {
+                    "layer_prefix": "cc_2052_moja",
+                    "name": "cc_2052",
+                    "layer_path": "..\\layers\\tiled\\cc_2052_moja"
+                },
+                {
+                    "layer_prefix": "cc_2022_moja",
+                    "name": "cc_2022",
+                    "layer_path": "..\\layers\\tiled\\cc_2022_moja"
+                },
+                {
+                    "layer_prefix": "fire_2024_moja",
+                    "name": "fire_2024",
+                    "layer_path": "..\\layers\\tiled\\fire_2024_moja"
+                },
+                {
+                    "layer_prefix": "fire_2052_moja",
+                    "name": "fire_2052",
+                    "layer_path": "..\\layers\\tiled\\fire_2052_moja"
+                },
+                {
+                    "layer_prefix": "fire_2022_moja",
+                    "name": "fire_2022",
+                    "layer_path": "..\\layers\\tiled\\fire_2022_moja"
+                },
+                {
+                    "layer_prefix": "salv_2042_moja",
+                    "name": "salv_2042",
+                    "layer_path": "..\\layers\\tiled\\salv_2042_moja"
+                },
+                {
+                    "layer_prefix": "cc_2046_moja",
+                    "name": "cc_2046",
+                    "layer_path": "..\\layers\\tiled\\cc_2046_moja"
+                }
+            ],
+            "blockLonSize": 0.1,
+            "tileLatSize": 1.0,
+            "tileLonSize": 1.0,
+            "library": "moja.modules.zipper",
+            "cellLatSize": 0.01,
+            "cellLonSize": 0.01,
+            "blockLatSize": 0.1,
+            "type": "RasterTiledZipper"
+        }
+    }
+}

@@ -22,11 +22,13 @@ require(raster)
 sourceDir <- "D:/regenFailureRiskAssessmentData_phase2/2019-01-07_coupe0.62_recup70_contrainteAge"
 replicates <- "001"  ### may also be a vector, a loop would be needed for multiple simulations
 simID <- replicates
+sourceCBM <- "../CBM_initPkg"
+projectName <- "test"
 yearInit <- 2015
 simDuration <- 50
 
 # copying Pothier-Savard files
-projectName <- "test"
+
 timestep <- 1 # simulation time step (currently only work with 1)
 
 
@@ -71,3 +73,5 @@ source("../scripts/initEnvironment.R")
 source("../scripts/initInventory.R")
 # Disturbances inputs
 source("../scripts/initDisturbances.R")
+# Creating GCBM simulation file package
+source("../scripts/initFilePackage.R")

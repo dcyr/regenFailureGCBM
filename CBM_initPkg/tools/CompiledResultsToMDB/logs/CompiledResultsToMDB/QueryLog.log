@@ -1,0 +1,12 @@
+2018-09-05 14:14:42,964 - compiled_gcbm_output.db
+SELECT * FROM v_disturbance_indicators
+---
+2018-09-05 14:14:43,036 - compiled_gcbm_output.db
+SELECT * FROM v_flux_indicators
+---
+2018-09-05 14:14:43,494 - compiled_gcbm_output.db
+SELECT * FROM v_stock_change_indicators
+---
+2018-09-05 14:14:43,813 - compiled_gcbm_output.db
+SELECT * FROM v_pool_indicators
+---

@@ -1,0 +1,30 @@
+[LOGGING]
+version = integer
+    
+    [[formatters]]
+        
+        [[[__many__]]]
+        format = string
+        datefmt = string(default=None)
+        
+    [[handlers]]
+    
+        [[[__many__]]]
+        class     = string
+        level     = string(default=None)
+        formatter = string(default=None)
+        filters   = list(default=None)
+
+    [[root]]
+    level    = string(default=None)
+    filters  = list(default=None)
+    handlers = list(default=None)
+    
+    [[loggers]]
+    
+        [[[__many__]]]
+        level     = string(default=None)
+        propagate = boolean(default=None)
+        filters   = list(default=None)
+        handlers  = list(default=None)
+        

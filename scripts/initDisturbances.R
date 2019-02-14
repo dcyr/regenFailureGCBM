@@ -294,15 +294,25 @@ if(plotting) {
     dev.off()
     filenames <- append(filenames, fName)
     
+    
+    ###################################################################
+    ###################################################################
+    ### plotting animated gif
+    require(animation)
+    oopt = ani.options(ani.dev="png", ani.type="png", interval = 0.5, autobrowse = FALSE)
+    ### (Windows users may want to add):  ani.options(convert = 'c:/program files/imagemagick/convert.exe')
+    im.convert(c(filenames, rep(filenames[length(filenames)], 10)),
+               output = "./figures/disturbances_anim.gif",
+               extra.opts = "", clean = F)
+    file.rename("disturbances_anim.gif", "./figures/disturbances_anim.gif")
+    
+    dir.create("./figures/individualTimeSteps")
+    file.rename(filenames[-length(filenames)],
+                paste("./figures/individualTimeSteps",
+                      basename(filenames[-length(filenames)]), sep = "/"))
 }
 
-require(animation)
-oopt = ani.options(ani.dev="png", ani.type="png", interval = 0.5, autobrowse = FALSE)
-### (Windows users may want to add):  ani.options(convert = 'c:/program files/imagemagick/convert.exe')
-im.convert(c(filenames, rep(filenames[length(filenames)], 10)),
-           output = "./figures/disturbances_anim.gif",
-           extra.opts = "", clean = F)
-file.rename("disturbances_anim.gif", "./figures/disturbances_anim.gif")
+
 
 
 

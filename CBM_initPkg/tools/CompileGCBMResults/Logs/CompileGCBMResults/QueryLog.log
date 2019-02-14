@@ -1,0 +1,1817 @@
+2018-06-11 16:53:09,315 - compiled_gcbm_output.db
+PRAGMA main.page_size=4096
+---
+2018-06-11 16:53:09,315 - compiled_gcbm_output.db
+PRAGMA main.cache_size=250000
+---
+2018-06-11 16:53:09,316 - compiled_gcbm_output.db
+VACUUM
+---
+2018-06-11 16:53:09,582 - compiled_gcbm_output.db
+ANALYZE
+---
+2018-06-11 16:53:09,739 - compiled_gcbm_output.db
+CREATE TABLE r_change_type_categories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR)
+---
+2018-06-11 16:53:09,913 - compiled_gcbm_output.db
+CREATE TABLE r_pool_collections (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    description VARCHAR)
+---
+2018-06-11 16:53:10,071 - compiled_gcbm_output.db
+CREATE TABLE r_pool_collection_pools (
+    pool_collection_id INTEGER REFERENCES r_pool_collections (id) NOT NULL,
+    pool_id UNSIGNED BIG INT REFERENCES PoolDimension (id) NOT NULL,
+    PRIMARY KEY (pool_collection_id, pool_id))
+---
+2018-06-11 16:53:10,220 - compiled_gcbm_output.db
+CREATE TABLE r_flux_indicators (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR NOT NULL,
+    change_type_category_id INTEGER REFERENCES r_change_type_categories (id),
+    source_pool_collection_id INTEGER REFERENCES r_pool_collections (id) NOT NULL,
+    sink_pool_collection_id INTEGER REFERENCES r_pool_collections (id) NOT NULL)
+---
+2018-06-11 16:53:10,365 - compiled_gcbm_output.db
+CREATE TABLE r_flux_indicator_collections (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    description VARCHAR)
+---
+2018-06-11 16:53:10,546 - compiled_gcbm_output.db
+CREATE TABLE r_flux_indicator_collection_flux_indicators (
+    flux_indicator_collection_id INTEGER REFERENCES r_flux_indicator_collections (id) NOT NULL,
+    flux_indicator_id INTEGER REFERENCES r_flux_indicators (id) NOT NULL,
+    PRIMARY KEY (flux_indicator_collection_id, flux_indicator_id))
+---
+2018-06-11 16:53:10,726 - compiled_gcbm_output.db
+CREATE TABLE r_stock_changes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR NOT NULL,
+    flux_indicator_collection_id INTEGER REFERENCES r_flux_indicator_collections (id),
+    add_sub INTEGER NOT NULL)
+---
+2018-06-11 16:53:10,895 - compiled_gcbm_output.db
+CREATE TABLE r_pool_indicators (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR NOT NULL,
+    pool_collection_id INTEGER REFERENCES r_pool_collections (id))
+---
+2018-06-11 16:53:11,072 - compiled_gcbm_output.db
+INSERT INTO r_change_type_categories (name) VALUES ('Annual Process')
+---
+2018-06-11 16:53:11,237 - compiled_gcbm_output.db
+INSERT INTO r_change_type_categories (name) VALUES ('Disturbance')
+---
+2018-06-11 16:53:11,395 - compiled_gcbm_output.db
+INSERT INTO r_change_type_categories (name) VALUES ('Combined')
+---
+2018-06-11 16:53:11,565 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('All biomass')
+---
+2018-06-11 16:53:11,713 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('CO2')
+---
+2018-06-11 16:53:11,867 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('CH4')
+---
+2018-06-11 16:53:12,003 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('CO')
+---
+2018-06-11 16:53:12,180 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Live biomass')
+---
+2018-06-11 16:53:12,338 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('DOM')
+---
+2018-06-11 16:53:12,505 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Litterfall inputs')
+---
+2018-06-11 16:53:12,671 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Litterfall pools')
+---
+2018-06-11 16:53:12,829 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Mortality inputs')
+---
+2018-06-11 16:53:13,003 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Mortality pools')
+---
+2018-06-11 16:53:13,171 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Deadwood')
+---
+2018-06-11 16:53:13,345 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Litter')
+---
+2018-06-11 16:53:13,513 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Softwood biomass')
+---
+2018-06-11 16:53:13,657 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Hardwood biomass')
+---
+2018-06-11 16:53:13,821 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Snags')
+---
+2018-06-11 16:53:13,979 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Merch')
+---
+2018-06-11 16:53:14,154 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Merch/Other')
+---
+2018-06-11 16:53:14,328 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('HWMerch')
+---
+2018-06-11 16:53:14,520 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Stem snag')
+---
+2018-06-11 16:53:14,645 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Foliage')
+---
+2018-06-11 16:53:14,788 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('VFastAG')
+---
+2018-06-11 16:53:14,946 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Other')
+---
+2018-06-11 16:53:15,095 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Other litter')
+---
+2018-06-11 16:53:15,246 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Coarse roots')
+---
+2018-06-11 16:53:15,395 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Fast soil')
+---
+2018-06-11 16:53:15,546 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Fine roots')
+---
+2018-06-11 16:53:15,687 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Very fast soil')
+---
+2018-06-11 16:53:15,836 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('SlowAG / CO2')
+---
+2018-06-11 16:53:15,960 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('SlowBG / CO2')
+---
+2018-06-11 16:53:16,111 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('VFastBG')
+---
+2018-06-11 16:53:16,270 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('FastAG')
+---
+2018-06-11 16:53:16,428 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('FastBG')
+---
+2018-06-11 16:53:16,595 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Medium')
+---
+2018-06-11 16:53:16,753 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('SlowAG')
+---
+2018-06-11 16:53:16,869 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('SlowBG')
+---
+2018-06-11 16:53:16,996 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('SWStemSnag')
+---
+2018-06-11 16:53:17,135 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('SWBranchSnag')
+---
+2018-06-11 16:53:17,286 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('HWStemSnag')
+---
+2018-06-11 16:53:17,437 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('HWBranchSnag')
+---
+2018-06-11 16:53:17,578 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Aboveground live biomass')
+---
+2018-06-11 16:53:17,736 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Belowground live biomass')
+---
+2018-06-11 16:53:17,911 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Atmosphere')
+---
+2018-06-11 16:53:18,045 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Products')
+---
+2018-06-11 16:53:18,193 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('BlackCarbon')
+---
+2018-06-11 16:53:18,361 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Peat')
+---
+2018-06-11 16:53:18,502 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('Soil')
+---
+2018-06-11 16:53:18,651 - compiled_gcbm_output.db
+INSERT INTO r_pool_collections (description) VALUES ('DissolvedOrganicCarbon')
+---
+2018-06-11 16:53:18,812 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('All biomass')
+    AND p.poolname IN ('SoftwoodMerch', 'SoftwoodFoliage', 'SoftwoodOther', 'SoftwoodCoarseRoots', 'SoftwoodFineRoots', 'HardwoodMerch', 'HardwoodFoliage', 'HardwoodOther', 'HardwoodCoarseRoots', 'HardwoodFineRoots', 'AboveGroundVeryFastSoil', 'BelowGroundVeryFastSoil', 'AboveGroundFastSoil', 'BelowGroundFastSoil', 'MediumSoil', 'AboveGroundSlowSoil', 'BelowGroundSlowSoil', 'SoftwoodStemSnag', 'SoftwoodBranchSnag', 'HardwoodStemSnag', 'HardwoodBranchSnag')
+---
+2018-06-11 16:53:18,924 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('CO2')
+    AND p.poolname IN ('CO2')
+---
+2018-06-11 16:53:19,049 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('CH4')
+    AND p.poolname IN ('CH4')
+---
+2018-06-11 16:53:19,183 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('CO')
+    AND p.poolname IN ('CO')
+---
+2018-06-11 16:53:19,313 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Live biomass')
+    AND p.poolname IN ('SoftwoodMerch', 'SoftwoodFoliage', 'SoftwoodOther', 'SoftwoodCoarseRoots', 'SoftwoodFineRoots', 'HardwoodMerch', 'HardwoodFoliage', 'HardwoodOther', 'HardwoodCoarseRoots', 'HardwoodFineRoots')
+---
+2018-06-11 16:53:19,440 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('DOM')
+    AND p.poolname IN ('AboveGroundVeryFastSoil', 'BelowGroundVeryFastSoil', 'AboveGroundFastSoil', 'BelowGroundFastSoil', 'MediumSoil', 'AboveGroundSlowSoil', 'BelowGroundSlowSoil', 'SoftwoodStemSnag', 'SoftwoodBranchSnag', 'HardwoodStemSnag', 'HardwoodBranchSnag')
+---
+2018-06-11 16:53:19,575 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Litterfall inputs')
+    AND p.poolname IN ('SoftwoodFoliage', 'SoftwoodFineRoots', 'SoftwoodCoarseRoots', 'HardwoodFoliage', 'HardwoodFineRoots', 'HardwoodCoarseRoots')
+---
+2018-06-11 16:53:19,717 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Litterfall pools')
+    AND p.poolname IN ('AboveGroundVeryFastSoil', 'BelowGroundVeryFastSoil','AboveGroundFastSoil', 'BelowGroundFastSoil')
+---
+2018-06-11 16:53:19,884 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Mortality inputs')
+    AND p.poolname IN ('SoftwoodMerch', 'SoftwoodOther', 'HardwoodMerch', 'HardwoodOther')
+---
+2018-06-11 16:53:20,033 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Mortality pools')
+    AND p.poolname IN ('AboveGroundFastSoil', 'BelowGroundFastSoil', 'MediumSoil', 'AboveGroundSlowSoil', 'BelowGroundSlowSoil', 'SoftwoodStemSnag', 'SoftwoodBranchSnag', 'HardwoodStemSnag', 'HardwoodBranchSnag')
+---
+2018-06-11 16:53:20,191 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Soil')
+    AND p.poolname IN ('BelowGroundVeryFastSoil', 'BelowGroundSlowSoil')
+---
+2018-06-11 16:53:20,342 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Litter')
+    AND p.poolname IN ('AboveGroundVeryFastSoil', 'AboveGroundFastSoil', 'AboveGroundSlowSoil')
+---
+2018-06-11 16:53:20,497 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Deadwood')
+    AND p.poolname IN ('BelowGroundFastSoil', 'MediumSoil', 'SoftwoodStemSnag', 'SoftwoodBranchSnag', 'HardwoodStemSnag', 'HardwoodBranchSnag')
+---
+2018-06-11 16:53:20,658 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('DissolvedOrganicCarbon')
+    AND p.poolname IN ('DissolvedOrganicCarbon')
+---
+2018-06-11 16:53:20,816 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Softwood biomass')
+    AND p.poolname IN ('SoftwoodMerch', 'SoftwoodFoliage', 'SoftwoodOther', 'SoftwoodCoarseRoots', 'SoftwoodFineRoots')
+---
+2018-06-11 16:53:20,974 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Hardwood biomass')
+    AND p.poolname IN ('HardwoodMerch', 'HardwoodFoliage', 'HardwoodOther', 'HardwoodCoarseRoots', 'HardwoodFineRoots')
+---
+2018-06-11 16:53:21,134 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Snags')
+    AND p.poolname IN ('SoftwoodStemSnag', 'SoftwoodBranchSnag', 'HardwoodStemSnag', 'HardwoodBranchSnag')
+---
+2018-06-11 16:53:21,283 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Merch')
+    AND p.poolname IN ('SoftwoodMerch', 'HardwoodMerch')
+---
+2018-06-11 16:53:21,434 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('SWMerch')
+    AND p.poolname IN ('SoftwoodMerch')
+---
+2018-06-11 16:53:21,440 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('HWMerch')
+    AND p.poolname IN ('HardwoodMerch')
+---
+2018-06-11 16:53:21,596 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Stem snag')
+    AND p.poolname IN ('SoftwoodStemSnag', 'HardwoodStemSnag')
+---
+2018-06-11 16:53:21,736 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Foliage')
+    AND p.poolname IN ('SoftwoodFoliage', 'HardwoodFoliage')
+---
+2018-06-11 16:53:21,885 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('VFastAG')
+    AND p.poolname IN ('AboveGroundVeryFastSoil')
+---
+2018-06-11 16:53:22,036 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Other')
+    AND p.poolname IN ('SoftwoodOther', 'HardwoodOther')
+---
+2018-06-11 16:53:22,196 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Other litter')
+    AND p.poolname IN ('AboveGroundFastSoil', 'SoftwoodBranchSnag')
+---
+2018-06-11 16:53:22,354 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Coarse roots')
+    AND p.poolname IN ('SoftwoodCoarseRoots', 'HardwoodCoarseRoots')
+---
+2018-06-11 16:53:22,520 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Fast soil')
+    AND p.poolname IN ('AboveGroundFastSoil', 'BelowGroundFastSoil')
+---
+2018-06-11 16:53:22,687 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Fine roots')
+    AND p.poolname IN ('SoftwoodFineRoots', 'HardwoodFineRoots')
+---
+2018-06-11 16:53:22,838 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Very fast soil')
+    AND p.poolname IN ('AboveGroundVeryFastSoil', 'BelowGroundVeryFastSoil')
+---
+2018-06-11 16:53:23,000 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('SlowAG / CO2')
+    AND p.poolname IN ('AboveGroundSlowSoil', 'CO2')
+---
+2018-06-11 16:53:23,157 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('SlowBG / CO2')
+    AND p.poolname IN ('BelowGroundSlowSoil', 'CO2')
+---
+2018-06-11 16:53:23,342 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('VFastBG')
+    AND p.poolname IN ('BelowGroundVeryFastSoil')
+---
+2018-06-11 16:53:23,483 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('FastAG')
+    AND p.poolname IN ('AboveGroundFastSoil')
+---
+2018-06-11 16:53:23,650 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('FastBG')
+    AND p.poolname IN ('BelowGroundFastSoil')
+---
+2018-06-11 16:53:23,822 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Medium')
+    AND p.poolname IN ('MediumSoil')
+---
+2018-06-11 16:53:23,961 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('SlowAG')
+    AND p.poolname IN ('AboveGroundSlowSoil')
+---
+2018-06-11 16:53:24,117 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('SlowBG')
+    AND p.poolname IN ('BelowGroundSlowSoil')
+---
+2018-06-11 16:53:24,299 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('SWStemSnag')
+    AND p.poolname IN ('SoftwoodStemSnag')
+---
+2018-06-11 16:53:24,483 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('SWBranchSnag')
+    AND p.poolname IN ('SoftwoodBranchSnag')
+---
+2018-06-11 16:53:24,665 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('HWStemSnag')
+    AND p.poolname IN ('HardwoodStemSnag')
+---
+2018-06-11 16:53:24,849 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('HWBranchSnag')
+    AND p.poolname IN ('HardwoodBranchSnag')
+---
+2018-06-11 16:53:25,032 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Aboveground live biomass')
+    AND p.poolname IN ('SoftwoodMerch', 'SoftwoodFoliage', 'SoftwoodOther', 'HardwoodMerch', 'HardwoodFoliage', 'HardwoodOther')
+---
+2018-06-11 16:53:25,174 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Merch/Other')
+    AND p.poolname IN ('SoftwoodMerch', 'SoftwoodOther', 'HardwoodMerch', 'HardwoodOther')
+---
+2018-06-11 16:53:25,315 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Belowground live biomass')
+    AND p.poolname IN ('SoftwoodCoarseRoots', 'SoftwoodFineRoots', 'HardwoodCoarseRoots', 'HardwoodFineRoots')
+---
+2018-06-11 16:53:25,474 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Atmosphere')
+    AND p.poolname IN ('Atmosphere')
+---
+2018-06-11 16:53:25,632 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Products')
+    AND p.poolname IN ('Products')
+---
+2018-06-11 16:53:25,782 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('BlackCarbon')
+    AND p.poolname IN ('BlackCarbon')
+---
+2018-06-11 16:53:25,950 - compiled_gcbm_output.db
+INSERT INTO r_pool_collection_pools (pool_collection_id, pool_id)
+SELECT pc.id AS pool_collection_id, p.id AS pool_id
+FROM r_pool_collections pc, pooldimension p
+WHERE LOWER(pc.description) LIKE LOWER('Peat')
+    AND p.poolname IN ('Peat')
+---
+2018-06-11 16:53:26,107 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'CO2Production' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('All biomass')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:26,273 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'CH4Production' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('All biomass')
+    AND LOWER(snk.description) LIKE LOWER('CH4')
+---
+2018-06-11 16:53:26,440 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'COProduction' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('All biomass')
+    AND LOWER(snk.description) LIKE LOWER('CO')
+---
+2018-06-11 16:53:26,608 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'BioCO2Emission' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Live biomass')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:26,773 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'BioCH4Emission' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Live biomass')
+    AND LOWER(snk.description) LIKE LOWER('CH4')
+---
+2018-06-11 16:53:26,933 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'BioCOEmission' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Live biomass')
+    AND LOWER(snk.description) LIKE LOWER('CO')
+---
+2018-06-11 16:53:27,108 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'DOMCO2Emission' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('DOM')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:27,272 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'DOMCH4Emission' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('DOM')
+    AND LOWER(snk.description) LIKE LOWER('CH4')
+---
+2018-06-11 16:53:27,448 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'DOMCOEmission' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('DOM')
+    AND LOWER(snk.description) LIKE LOWER('CO')
+---
+2018-06-11 16:53:27,632 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'DOMCO2Emission - Disturbance' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('DOM')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:27,823 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'DOMCH4Emission - Disturbance' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('DOM')
+    AND LOWER(snk.description) LIKE LOWER('CH4')
+---
+2018-06-11 16:53:27,990 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'DOMCOEmission - Disturbance' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('DOM')
+    AND LOWER(snk.description) LIKE LOWER('CO')
+---
+2018-06-11 16:53:28,188 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'DOMCO2Emission - Annual Process' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Annual Process')
+    AND LOWER(src.description) LIKE LOWER('DOM')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:28,355 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'DOMCH4Emission - Annual Process' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Annual Process')
+    AND LOWER(src.description) LIKE LOWER('DOM')
+    AND LOWER(snk.description) LIKE LOWER('CH4')
+---
+2018-06-11 16:53:28,516 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'DOMCOEmission - Annual Process' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Annual Process')
+    AND LOWER(src.description) LIKE LOWER('DOM')
+    AND LOWER(snk.description) LIKE LOWER('CO')
+---
+2018-06-11 16:53:28,683 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'SoftProduction' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('Softwood biomass')
+    AND LOWER(snk.description) LIKE LOWER('Products')
+---
+2018-06-11 16:53:28,841 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'HardProduction' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('Hardwood biomass')
+    AND LOWER(snk.description) LIKE LOWER('Products')
+---
+2018-06-11 16:53:28,999 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'DOMProduction' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('Snags')
+    AND LOWER(snk.description) LIKE LOWER('Products')
+---
+2018-06-11 16:53:29,190 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'BiomassToSoil' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Live biomass')
+    AND LOWER(snk.description) LIKE LOWER('DOM')
+---
+2018-06-11 16:53:29,381 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'Litterfall - Annual Process' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Annual Process')
+    AND LOWER(src.description) LIKE LOWER('Litterfall inputs')
+    AND LOWER(snk.description) LIKE LOWER('Litterfall pools')
+---
+2018-06-11 16:53:29,566 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'Mortality - Annual Process' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Annual Process')
+    AND LOWER(src.description) LIKE LOWER('Mortality inputs')
+    AND LOWER(snk.description) LIKE LOWER('Mortality pools')
+---
+2018-06-11 16:53:29,757 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'Litterfall - Combined' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Litterfall inputs')
+    AND LOWER(snk.description) LIKE LOWER('Litterfall pools')
+---
+2018-06-11 16:53:29,983 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'Mortality - Combined' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Mortality inputs')
+    AND LOWER(snk.description) LIKE LOWER('Mortality pools')
+---
+2018-06-11 16:53:30,125 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'MerchLitterInput' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Merch')
+    AND LOWER(snk.description) LIKE LOWER('Stem snag')
+---
+2018-06-11 16:53:30,275 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'FolLitterInput' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Foliage')
+    AND LOWER(snk.description) LIKE LOWER('VFastAG')
+---
+2018-06-11 16:53:30,474 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'OthLitterInput' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Other')
+    AND LOWER(snk.description) LIKE LOWER('Other litter')
+---
+2018-06-11 16:53:30,631 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'CoarseLitterInput' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Coarse roots')
+    AND LOWER(snk.description) LIKE LOWER('Fast soil')
+---
+2018-06-11 16:53:30,799 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'FineLitterInput' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Fine roots')
+    AND LOWER(snk.description) LIKE LOWER('Very fast soil')
+---
+2018-06-11 16:53:30,966 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'VFastAGToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('VFastAG')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:31,132 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'VFastBGToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('VFastBG')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:31,299 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'FastAGToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('FastAG')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:31,474 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'FastBGToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('FastBG')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:31,648 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'MediumToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Medium')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:31,825 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'SlowAGToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('SlowAG')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:32,000 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'SlowBGToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('SlowBG')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:32,157 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'SWStemSnagToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('SWStemSnag')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:32,315 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'SWBranchSnagToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('SWBranchSnag')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:32,483 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'HWStemSnagToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('HWStemSnag')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:32,690 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'HWBranchSnagToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('HWBranchSnag')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:32,928 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'MerchToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('Merch')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:33,091 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'FolToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('Foliage')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:33,257 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'OthToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('Other')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:33,494 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'CoarseToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('Coarse roots')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:33,650 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'FineToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Disturbance')
+    AND LOWER(src.description) LIKE LOWER('Fine roots')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:33,887 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'BlackCarbonToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('BlackCarbon')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:34,124 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'PeatToAir' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Combined')
+    AND LOWER(src.description) LIKE LOWER('Peat')
+    AND LOWER(snk.description) LIKE LOWER('CO2')
+---
+2018-06-11 16:53:34,348 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'GrossGrowth_AG' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Annual Process')
+    AND LOWER(src.description) LIKE LOWER('Atmosphere')
+    AND LOWER(snk.description) LIKE LOWER('Aboveground live biomass')
+---
+2018-06-11 16:53:34,573 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicators (name, change_type_category_id, source_pool_collection_id, sink_pool_collection_id)
+SELECT 'GrossGrowth_BG' AS name, ct.id AS change_type_category_id, src.id AS source_pool_collection_id, snk.id AS sink_pool_collection_id
+FROM r_change_type_categories ct, r_pool_collections src, r_pool_collections snk
+WHERE LOWER(ct.name) LIKE LOWER('Annual Process')
+    AND LOWER(src.description) LIKE LOWER('Atmosphere')
+    AND LOWER(snk.description) LIKE LOWER('Belowground live biomass')
+---
+2018-06-11 16:53:34,792 - compiled_gcbm_output.db
+SELECT * FROM classifiersetdimension LIMIT 1
+---
+2018-06-11 16:53:34,795 - compiled_gcbm_output.db
+CREATE TABLE v_flux_indicators AS
+SELECT
+    fi.id AS flux_indicator_id,
+    Classifier1, Classifier2,
+    lc.name AS unfccc_land_class,
+    fi.name AS indicator,
+    d.year AS year,
+    dt.disturbancetype AS disturbance_code,
+    dt.disturbancetypename AS disturbance_type,
+    CASE
+        WHEN ac.startage = -1 THEN 'N/A'
+        ELSE ac.startage || '-' || ac.endage
+    END AS age_range,
+    l.area AS area,
+    SUM(CASE
+            WHEN LOWER(ct.name) LIKE LOWER('Annual Process') AND f.disturbancedimid IS NULL THEN f.fluxvalue
+            WHEN LOWER(ct.name) LIKE LOWER('Disturbance') AND f.disturbancedimid IS NOT NULL THEN f.fluxvalue
+            WHEN LOWER(ct.name) LIKE LOWER('Combined') THEN f.fluxvalue
+            ELSE 0
+        END
+    ) AS flux_tc
+FROM r_flux_indicators fi
+INNER JOIN r_pool_collection_pools p_src
+    ON fi.source_pool_collection_id = p_src.pool_collection_id
+INNER JOIN r_pool_collection_pools p_dst
+    ON fi.sink_pool_collection_id = p_dst.pool_collection_id
+INNER JOIN fluxes f
+    ON f.poolsrcdimid = p_src.pool_id
+    AND f.pooldstdimid = p_dst.pool_id
+INNER JOIN locationdimension l
+    ON f.locationdimid = l.id
+INNER JOIN classifiersetdimension s
+    ON l.classifiersetdimid = s.id
+INNER JOIN datedimension d
+    ON l.datedimid = d.id
+INNER JOIN landclassdimension lc
+    ON l.landclassdimid = lc.id
+INNER JOIN r_change_type_categories ct
+    ON fi.change_type_category_id = ct.id
+LEFT JOIN disturbancedimension di
+    ON f.disturbancedimid = di.id
+LEFT JOIN disturbancetypedimension dt
+    ON di.disturbancetypedimid = dt.id
+LEFT JOIN ageclassdimension ac
+    ON l.ageclassdimid = ac.id
+GROUP BY
+    fi.id,
+    Classifier1, Classifier2,
+    lc.name,
+    fi.name,
+    dt.disturbancetype,
+    dt.disturbancetypename,
+    ac.startage,
+    ac.endage,
+    l.area,
+    d.year
+HAVING SUM(
+    CASE
+            WHEN LOWER(ct.name) LIKE LOWER('Annual Process') AND f.disturbancedimid IS NULL THEN f.fluxvalue
+            WHEN LOWER(ct.name) LIKE LOWER('Disturbance') AND f.disturbancedimid IS NOT NULL THEN f.fluxvalue
+            WHEN LOWER(ct.name) LIKE LOWER('Combined') THEN f.fluxvalue
+        ELSE 0
+    END
+) > 0
+---
+2018-06-11 16:53:35,283 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Litterfall - Annual Process')
+---
+2018-06-11 16:53:35,528 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Mortality - Annual Process')
+---
+2018-06-11 16:53:35,776 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Litterfall - Combined')
+---
+2018-06-11 16:53:36,003 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Mortality - Combined')
+---
+2018-06-11 16:53:36,134 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Gross Growth')
+---
+2018-06-11 16:53:36,384 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Ecosystem Removals')
+---
+2018-06-11 16:53:36,609 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Biomass Removals')
+---
+2018-06-11 16:53:36,809 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('DOM Removals')
+---
+2018-06-11 16:53:37,043 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('DOM Emissions')
+---
+2018-06-11 16:53:37,285 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('DOM Emissions - Annual Process')
+---
+2018-06-11 16:53:37,559 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('DOM Emissions - Disturbance')
+---
+2018-06-11 16:53:37,773 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('BiomassToSoil')
+---
+2018-06-11 16:53:37,982 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Decomposition Releases')
+---
+2018-06-11 16:53:38,131 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('All Production')
+---
+2018-06-11 16:53:38,332 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Live Production')
+---
+2018-06-11 16:53:38,529 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('DOMProduction')
+---
+2018-06-11 16:53:38,732 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('SoftProduction')
+---
+2018-06-11 16:53:38,881 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('HardProduction')
+---
+2018-06-11 16:53:39,089 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Disturbance Emissions and DOM Annual Process Emissions')
+---
+2018-06-11 16:53:39,298 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Deadwood to Air')
+---
+2018-06-11 16:53:39,473 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Litter to Air')
+---
+2018-06-11 16:53:39,614 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Soil to Air')
+---
+2018-06-11 16:53:39,757 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('All Emissions')
+---
+2018-06-11 16:53:39,966 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Biomass Emissions')
+---
+2018-06-11 16:53:40,174 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('CO2 Emissions')
+---
+2018-06-11 16:53:40,315 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('CO Emissions')
+---
+2018-06-11 16:53:40,473 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('CH4 Emissions')
+---
+2018-06-11 16:53:40,632 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Annual Mortality')
+---
+2018-06-11 16:53:40,789 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collections (description) VALUES ('Annual Litterfall')
+---
+2018-06-11 16:53:40,943 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Litterfall - Annual Process')
+    AND fi.name IN ('Litterfall - Annual Process')
+---
+2018-06-11 16:53:41,108 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Mortality - Annual Process')
+    AND fi.name IN ('Mortality - Annual Process')
+---
+2018-06-11 16:53:41,273 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Litterfall - Combined')
+    AND fi.name IN ('Litterfall - Combined')
+---
+2018-06-11 16:53:41,440 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Mortality - Combined')
+    AND fi.name IN ('Mortality - Combined')
+---
+2018-06-11 16:53:41,615 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Gross Growth')
+    AND fi.name IN ('GrossGrowth_AG', 'GrossGrowth_BG')
+---
+2018-06-11 16:53:41,782 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Ecosystem Removals')
+    AND fi.name IN ('BioCO2Emission', 'BioCH4Emission', 'BioCOEmission', 'DOMCO2Emission', 'DOMCH4Emission', 'DOMCOEmission', 'SoftProduction', 'HardProduction', 'DOMProduction')
+---
+2018-06-11 16:53:41,963 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Biomass Removals')
+    AND fi.name IN ('BioCO2Emission', 'BioCH4Emission', 'BioCOEmission', 'SoftProduction', 'HardProduction', 'BiomassToSoil')
+---
+2018-06-11 16:53:42,115 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('DOM Removals')
+    AND fi.name IN ('DOMCO2Emission', 'DOMCH4Emission', 'DOMCOEmission', 'DOMProduction', 'BiomassToSoil')
+---
+2018-06-11 16:53:42,285 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('DOM Emissions')
+    AND fi.name IN ('DOMCO2Emission', 'DOMCH4Emission', 'DOMCOEmission')
+---
+2018-06-11 16:53:42,457 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('DOM Emissions - Annual Process')
+    AND fi.name IN ('DOMCO2Emission - Annual Process', 'DOMCH4Emission - Annual Process', 'DOMCOEmission - Annual Process')
+---
+2018-06-11 16:53:42,621 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('DOM Emissions - Disturbance')
+    AND fi.name IN ('DOMCO2Emission - Disturbance', 'DOMCH4Emission - Disturbance', 'DOMCOEmission - Disturbance')
+---
+2018-06-11 16:53:42,790 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('BiomassToSoil')
+    AND fi.name IN ('BiomassToSoil')
+---
+2018-06-11 16:53:42,963 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Decomposition Releases')
+    AND fi.name IN ('DOMCO2Emission - Annual Process', 'DOMCH4Emission - Annual Process', 'DOMCOEmission - Annual Process')
+---
+2018-06-11 16:53:43,131 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('All Production')
+    AND fi.name IN ('SoftProduction', 'HardProduction', 'DOMProduction')
+---
+2018-06-11 16:53:43,299 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Live Production')
+    AND fi.name IN ('SoftProduction', 'HardProduction')
+---
+2018-06-11 16:53:43,473 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('DOMProduction')
+    AND fi.name IN ('DOMProduction')
+---
+2018-06-11 16:53:43,648 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('SoftProduction')
+    AND fi.name IN ('SoftProduction')
+---
+2018-06-11 16:53:43,823 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('HardProduction')
+    AND fi.name IN ('HardProduction')
+---
+2018-06-11 16:53:43,982 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Disturbance Emissions and DOM Annual Process Emissions')
+    AND fi.name IN ('SoftProduction', 'HardProduction', 'DOMProduction', 'DOMCO2Emission', 'DOMCH4Emission', 'DOMCOEmission', 'BioCO2Emission', 'BioCH4Emission', 'BioCOEmission')
+---
+2018-06-11 16:53:44,112 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Deadwood to Air')
+    AND fi.name IN ('FastAGToAir', 'FastBGToAir', 'MediumToAir', 'SWStemSnagToAir', 'SWBranchSnagToAir', 'HWStemSnagToAir', 'HWBranchSnagToAir')
+---
+2018-06-11 16:53:44,265 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Litter to Air')
+    AND fi.name IN ('VFastAGToAir', 'SlowAGToAir')
+---
+2018-06-11 16:53:44,424 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Soil to Air')
+    AND fi.name IN ('VFastBGToAir', 'SlowBGToAir', 'BlackCarbonToAir')
+---
+2018-06-11 16:53:44,565 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('All Emissions')
+    AND fi.name IN ('BioCO2Emission', 'BioCH4Emission', 'BioCOEmission', 'DOMCO2Emission', 'DOMCH4Emission', 'DOMCOEmission')
+---
+2018-06-11 16:53:44,740 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Biomass Emissions')
+    AND fi.name IN ('BioCO2Emission', 'BioCH4Emission', 'BioCOEmission')
+---
+2018-06-11 16:53:44,924 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('CO2 Emissions')
+    AND fi.name IN ('BioCO2Emission', 'DOMCO2Emission')
+---
+2018-06-11 16:53:45,107 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('CO Emissions')
+    AND fi.name IN ('BioCOEmission', 'DOMCOEmission')
+---
+2018-06-11 16:53:45,288 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('CH4 Emissions')
+    AND fi.name IN ('BioCH4Emission', 'DOMCH4Emission')
+---
+2018-06-11 16:53:45,464 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Annual Mortality')
+    AND fi.name IN ('Mortality - Annual Process')
+---
+2018-06-11 16:53:45,640 - compiled_gcbm_output.db
+INSERT INTO r_flux_indicator_collection_flux_indicators (flux_indicator_collection_id, flux_indicator_id)
+SELECT fic.id AS flux_indicator_collection_id, fi.id AS flux_indicator_id
+FROM r_flux_indicator_collections fic, r_flux_indicators fi
+WHERE LOWER(fic.description) LIKE LOWER('Annual Litterfall')
+    AND fi.name IN ('Litterfall - Annual Process')
+---
+2018-06-11 16:53:45,775 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Delta Total Ecosystem' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Gross Growth')
+UNION
+SELECT 'Delta Total Ecosystem' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Ecosystem Removals')
+---
+2018-06-11 16:53:45,931 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Delta Total Biomass' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Gross Growth')
+UNION
+SELECT 'Delta Total Biomass' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Biomass Removals')
+---
+2018-06-11 16:53:46,073 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Delta Total DOM' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Gross Growth')
+UNION
+SELECT 'Delta Total DOM' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('DOM Removals')
+---
+2018-06-11 16:53:46,240 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'NPP' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Gross Growth')
+UNION
+SELECT 'NPP' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:46,378 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'NEP' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Gross Growth')
+UNION
+SELECT 'NEP' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('DOM Emissions - Annual Process')
+---
+2018-06-11 16:53:46,539 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'NBP' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Gross Growth')
+UNION
+SELECT 'NBP' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Disturbance Emissions and DOM Annual Process Emissions')
+---
+2018-06-11 16:53:46,714 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total Detrital Transfers' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('BiomassToSoil')
+UNION
+SELECT 'Total Detrital Transfers' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:46,881 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Annual Litterfall' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Litterfall - Annual Process')
+UNION
+SELECT 'Annual Litterfall' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:47,039 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Annual Mortality' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Mortality - Annual Process')
+UNION
+SELECT 'Annual Mortality' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:47,197 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total Litterfall' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Litterfall - Combined')
+UNION
+SELECT 'Total Litterfall' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:47,372 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total Mortality' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Mortality - Combined')
+UNION
+SELECT 'Total Mortality' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:47,538 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Decomposition Releases' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Decomposition Releases')
+UNION
+SELECT 'Decomposition Releases' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:47,714 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total Harvest (Biomass + Snags)' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('All Production')
+UNION
+SELECT 'Total Harvest (Biomass + Snags)' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:47,890 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total Harvest (Biomass)' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Live Production')
+UNION
+SELECT 'Total Harvest (Biomass)' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:48,056 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total Harvest (Snags)' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('DOMProduction')
+UNION
+SELECT 'Total Harvest (Snags)' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:48,240 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Softwood Harvest (Biomass)' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('SoftProduction')
+UNION
+SELECT 'Softwood Harvest (Biomass)' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:48,405 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Hardwood Harvest (Biomass)' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('HardProduction')
+UNION
+SELECT 'Hardwood Harvest (Biomass)' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:48,578 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Deadwood to Atmosphere' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Deadwood to Air')
+UNION
+SELECT 'Deadwood to Atmosphere' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:48,747 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Soil to Atmosphere' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Soil to Air')
+UNION
+SELECT 'Soil to Atmosphere' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:48,930 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total Emissions' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('All Emissions')
+UNION
+SELECT 'Total Emissions' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:49,082 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total Biomass Emissions' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Biomass Emissions')
+UNION
+SELECT 'Total Biomass Emissions' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:49,247 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total DOM Emissions' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('DOM Emissions')
+UNION
+SELECT 'Total DOM Emissions' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:49,423 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total CO2 Emissions' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('CO2 Emissions')
+UNION
+SELECT 'Total CO2 Emissions' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:49,648 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total CO Emissions' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('CO Emissions')
+UNION
+SELECT 'Total CO Emissions' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:49,788 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Total CH4 Emissions' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('CH4 Emissions')
+UNION
+SELECT 'Total CH4 Emissions' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:49,956 - compiled_gcbm_output.db
+INSERT INTO r_stock_changes (name, flux_indicator_collection_id, add_sub)
+SELECT 'Disturbance Losses' AS name, fic.id AS flux_indicator_collection_id, 1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ('Ecosystem Removals')
+UNION
+SELECT 'Disturbance Losses' AS name, fic.id AS flux_indicator_collection_id, -1 AS add_sub
+FROM r_flux_indicator_collections fic
+WHERE fic.description IN ()
+---
+2018-06-11 16:53:50,105 - compiled_gcbm_output.db
+SELECT * FROM classifiersetdimension LIMIT 1
+---
+2018-06-11 16:53:50,107 - compiled_gcbm_output.db
+CREATE TABLE v_flux_indicator_aggregates AS
+SELECT
+    fic.id AS flux_indicator_collection_id,
+    fic.description AS indicator,
+    fi.year AS year,
+    Classifier1, Classifier2,
+    fi.unfccc_land_class AS unfccc_land_class,
+    fi.age_range AS age_range,
+    fi.area AS area,
+    SUM(fi.flux_tc) AS flux_tc
+FROM r_flux_indicator_collections fic
+INNER JOIN r_flux_indicator_collection_flux_indicators fic_fi
+    ON fic.id = fic_fi.flux_indicator_collection_id
+INNER JOIN v_flux_indicators fi
+    ON fic_fi.flux_indicator_id = fi.flux_indicator_id
+GROUP BY
+    fic.id,
+    fic.description,
+    fi.year,
+    fi.area,
+    Classifier1, Classifier2,
+    fi.unfccc_land_class,
+    fi.age_range
+---
+2018-06-11 16:53:50,328 - compiled_gcbm_output.db
+SELECT * FROM classifiersetdimension LIMIT 1
+---
+2018-06-11 16:53:50,328 - compiled_gcbm_output.db
+CREATE TABLE v_stock_change_indicators AS
+SELECT
+    sc.name AS indicator,
+    Classifier1, Classifier2,
+    f.unfccc_land_class AS unfccc_land_class,
+    f.year AS year,
+    f.age_range AS age_range,
+    f.area AS area,
+    SUM(f.flux_tc * sc.add_sub) AS flux_tc
+FROM r_stock_changes sc
+INNER JOIN v_flux_indicator_aggregates f
+    ON sc.flux_indicator_collection_id = f.flux_indicator_collection_id
+GROUP BY
+    sc.name,
+    Classifier1, Classifier2,
+    f.unfccc_land_class,
+    f.age_range,
+    f.area,
+    f.year
+---
+2018-06-11 16:53:50,525 - compiled_gcbm_output.db
+INSERT INTO r_pool_indicators (name, pool_collection_id)
+SELECT 'Total Ecosystem' AS name, pc.id AS pool_collection_id
+FROM r_pool_collections pc
+WHERE LOWER(pc.description) LIKE LOWER('All biomass')
+---
+2018-06-11 16:53:50,681 - compiled_gcbm_output.db
+INSERT INTO r_pool_indicators (name, pool_collection_id)
+SELECT 'Total Biomass' AS name, pc.id AS pool_collection_id
+FROM r_pool_collections pc
+WHERE LOWER(pc.description) LIKE LOWER('Live biomass')
+---
+2018-06-11 16:53:50,855 - compiled_gcbm_output.db
+INSERT INTO r_pool_indicators (name, pool_collection_id)
+SELECT 'Merch/Other' AS name, pc.id AS pool_collection_id
+FROM r_pool_collections pc
+WHERE LOWER(pc.description) LIKE LOWER('Merch/Other')
+---
+2018-06-11 16:53:51,098 - compiled_gcbm_output.db
+INSERT INTO r_pool_indicators (name, pool_collection_id)
+SELECT 'Aboveground Biomass' AS name, pc.id AS pool_collection_id
+FROM r_pool_collections pc
+WHERE LOWER(pc.description) LIKE LOWER('Aboveground live biomass')
+---
+2018-06-11 16:53:51,273 - compiled_gcbm_output.db
+INSERT INTO r_pool_indicators (name, pool_collection_id)
+SELECT 'Belowground Biomass' AS name, pc.id AS pool_collection_id
+FROM r_pool_collections pc
+WHERE LOWER(pc.description) LIKE LOWER('Belowground live biomass')
+---
+2018-06-11 16:53:51,448 - compiled_gcbm_output.db
+INSERT INTO r_pool_indicators (name, pool_collection_id)
+SELECT 'Deadwood' AS name, pc.id AS pool_collection_id
+FROM r_pool_collections pc
+WHERE LOWER(pc.description) LIKE LOWER('Deadwood')
+---
+2018-06-11 16:53:51,631 - compiled_gcbm_output.db
+INSERT INTO r_pool_indicators (name, pool_collection_id)
+SELECT 'Litter' AS name, pc.id AS pool_collection_id
+FROM r_pool_collections pc
+WHERE LOWER(pc.description) LIKE LOWER('Litter')
+---
+2018-06-11 16:53:51,806 - compiled_gcbm_output.db
+INSERT INTO r_pool_indicators (name, pool_collection_id)
+SELECT 'Soil Carbon' AS name, pc.id AS pool_collection_id
+FROM r_pool_collections pc
+WHERE LOWER(pc.description) LIKE LOWER('Soil')
+---
+2018-06-11 16:53:51,987 - compiled_gcbm_output.db
+INSERT INTO r_pool_indicators (name, pool_collection_id)
+SELECT 'Dissolved Organic Carbon' AS name, pc.id AS pool_collection_id
+FROM r_pool_collections pc
+WHERE LOWER(pc.description) LIKE LOWER('DissolvedOrganicCarbon')
+---
+2018-06-11 16:53:52,247 - compiled_gcbm_output.db
+SELECT * FROM classifiersetdimension LIMIT 1
+---
+2018-06-11 16:53:52,249 - compiled_gcbm_output.db
+CREATE TABLE v_pool_indicators AS
+SELECT
+    pid.id AS indicator_id,
+    Classifier1, Classifier2,
+    lc.name AS unfccc_land_class,
+    pid.name AS indicator,
+    d.year AS year,
+    CASE
+        WHEN ac.startage = -1 THEN 'N/A'
+        ELSE ac.startage || '-' || ac.endage
+    END AS age_range,
+    l.area AS area,
+    SUM(p.poolvalue) AS pool_tc,
+    SUM(p.poolvalue) / l.area AS pool_tc_per_ha
+FROM r_pool_indicators pid
+INNER JOIN r_pool_collection_pools pcp
+    ON pid.pool_collection_id = pcp.pool_collection_id
+INNER JOIN pools p
+    ON pcp.pool_id = p.poolid
+INNER JOIN locationdimension l
+    ON p.locationdimid = l.id
+INNER JOIN classifiersetdimension s
+    ON l.classifiersetdimid = s.id
+INNER JOIN landclassdimension lc
+    ON l.landclassdimid = lc.id
+INNER JOIN datedimension d
+    ON l.datedimid = d.id
+LEFT JOIN ageclassdimension ac
+    ON l.ageclassdimid = ac.id
+GROUP BY
+    pid.id,
+    pid.name,
+    d.year,
+    ac.startage,
+    ac.endage,
+    l.area,
+    Classifier1, Classifier2,
+    lc.name
+---
+2018-06-11 16:53:52,615 - compiled_gcbm_output.db
+SELECT * FROM classifiersetdimension LIMIT 1
+---
+2018-06-11 16:53:52,617 - compiled_gcbm_output.db
+CREATE TABLE v_disturbance_indicators AS
+SELECT
+    Classifier1, Classifier2,
+    lc.name AS unfccc_land_class,
+    d.year AS year,
+    dt.disturbancetype AS disturbance_code,
+    dt.disturbancetypename AS disturbance_type,
+    CASE
+        WHEN ac.startage = -1 THEN 'N/A'
+        ELSE ac.startage || '-' || ac.endage
+    END AS pre_dist_age_range,
+    CASE
+        WHEN ac_post.startage = -1 THEN 'N/A'
+        ELSE ac_post.startage || '-' || ac_post.endage
+    END AS post_dist_age_range,
+    SUM(di.area) AS dist_area,
+    SUM(f.fluxvalue) AS dist_product,
+    SUM(f.fluxvalue) / SUM(di.area) AS dist_product_per_ha
+FROM (
+    SELECT
+        locationdimid,
+        moduleinfodimid,
+        disturbancedimid,
+        SUM(f.fluxvalue) AS fluxvalue
+    FROM fluxes f
+    GROUP BY
+        locationdimid,
+        moduleinfodimid,
+        disturbancedimid
+) AS f
+INNER JOIN locationdimension l
+    ON f.locationdimid = l.id
+INNER JOIN classifiersetdimension s
+    ON l.classifiersetdimid = s.id
+INNER JOIN datedimension d
+    ON l.datedimid = d.id
+INNER JOIN landclassdimension lc
+    ON l.landclassdimid = lc.id
+INNER JOIN disturbancedimension di
+    ON f.disturbancedimid = di.id
+INNER JOIN disturbancetypedimension dt
+    ON di.disturbancetypedimid = dt.id
+LEFT JOIN ageclassdimension ac
+    ON di.predistageclassdimid = ac.id
+LEFT JOIN ageclassdimension ac_post
+    ON l.ageclassdimid = ac_post.id
+GROUP BY
+    Classifier1, Classifier2,
+    lc.name,
+    dt.disturbancetype,
+    dt.disturbancetypename,
+    ac.startage,
+    ac.endage,
+    ac_post.startage,
+    ac_post.endage,
+    d.year
+---
+2018-06-11 16:53:52,894 - compiled_gcbm_output.db
+SELECT * FROM classifiersetdimension LIMIT 1
+---
+2018-06-11 16:53:52,894 - compiled_gcbm_output.db
+CREATE TABLE v_age_indicators AS
+SELECT
+   	d.year AS year,
+  	Classifier1, Classifier2,
+    lc.name AS unfccc_land_class,
+    CASE
+        WHEN ac.startage = -1 THEN 'N/A'
+        ELSE ac.startage || '-' || ac.endage
+    END AS age_range,
+   	SUM(a.area) AS area
+FROM agearea a
+INNER JOIN ageclassdimension ac
+    ON a.ageclassdimid = ac.id
+INNER JOIN locationdimension l
+    ON a.locationdimid = l.id
+INNER JOIN classifiersetdimension c
+    ON l.classifiersetdimid = c.id
+INNER JOIN landclassdimension lc
+    ON l.landclassdimid = lc.id
+INNER JOIN datedimension d
+    ON l.datedimid = d.id
+GROUP BY
+   d.year,
+   Classifier1, Classifier2,
+   lc.name,
+   ac.startage,
+   ac.endage
+---
+2018-06-11 16:53:53,131 - compiled_gcbm_output.db
+SELECT * FROM classifiersetdimension LIMIT 1
+---
+2018-06-11 16:53:53,131 - compiled_gcbm_output.db
+CREATE TABLE v_error_indicators AS
+SELECT
+   	d.year AS year,
+  	Classifier1, Classifier2,
+    e.module AS module,
+    e.error AS error,
+    SUM(l.area) AS area
+FROM errordimension e
+LEFT JOIN locationerrordimension le
+    ON e.id = le.errordimid
+LEFT JOIN locationdimension l
+    ON le.locationdimid = l.id
+LEFT JOIN classifiersetdimension c
+    ON l.classifiersetdimid = c.id
+LEFT JOIN datedimension d
+    ON l.datedimid = d.id
+GROUP BY
+   d.year,
+   Classifier1, Classifier2,
+   e.module,
+   e.error
+---

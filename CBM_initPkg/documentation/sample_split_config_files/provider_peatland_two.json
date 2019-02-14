@@ -1,0 +1,75 @@
+{
+    "Providers": {
+        "SQLite": {
+            "path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\peatland_input.db",
+            "type": "SQLite"
+        },
+        "RasterTiled": {
+            "layers": [                
+                {
+                    "layer_prefix": "peatland_class_moja",
+                    "name": "peatland_class",
+                    "layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\peatland_class_moja"
+                },
+                {
+                    "layer_prefix": "RSM_KEY_BA_moja",
+                    "name": "RSM_KEY_BA",
+                    "layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\RSM_KEY_BA_moja"
+                },
+                {
+                    "layer_prefix": "species_moja",
+                    "name": "species",
+                    "layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\species_moja"
+                },
+                {
+                    "layer_prefix": "Wildfire_1993_moja",
+                    "name": "Wildfire_1993",
+                    "layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\Wildfire_1993_moja"
+                },
+                {
+                    "layer_prefix": "Wildfire_1997_moja",
+                    "name": "Wildfire_1997",
+                    "layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\Wildfire_1997_moja"
+                },
+                {
+                    "layer_prefix": "Wildfire_1999_moja",
+                    "name": "Wildfire_1999",
+                    "layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\Wildfire_1999_moja"
+                },
+                {
+                    "layer_prefix": "Wildfire_2001_moja",
+                    "name": "Wildfire_2001",
+                    "layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\Wildfire_2001_moja"
+                },
+                {
+                    "layer_prefix": "Wildfire_2002_moja",
+                    "name": "Wildfire_2002",
+                    "layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\Wildfire_2002_moja"
+                },
+                {
+                    "layer_prefix": "Wildfire_2003_moja",
+                    "name": "Wildfire_2003",
+                    "layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\Wildfire_2003_moja"
+                },
+                {
+                    "layer_prefix": "Wildfire_2006_moja",
+                    "name": "Wildfire_2006",
+                    "layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\Wildfire_2006_moja"
+                },
+				{
+                    "layer_prefix": "annual_drought_class",
+                    "name": "annual_drought_class",
+                    "layer_path": "C:\\GCBM_TEST\\peatland_SK\\inputs\\01_spatial\\layers\\tiled\\.\\annual_drought_class"
+                }
+            ],
+            "blockLonSize": 0.1,
+            "tileLatSize": 1.0,
+            "tileLonSize": 1.0,
+            "library": "moja.modules.zipper",
+            "cellLatSize": 0.001,
+            "cellLonSize": 0.001,
+            "blockLatSize": 0.1,
+            "type": "RasterTiledZipper"
+        }
+    }
+}

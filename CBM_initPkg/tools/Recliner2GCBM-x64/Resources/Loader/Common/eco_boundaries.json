@@ -1,0 +1,44 @@
+﻿{
+    "SQLLoaderMapping": {
+        "name": "Eco boundaries",
+        "fetch_sql": "
+            SELECT
+                e.name AS EcoBoundaryName,
+                tp.sw_foliage AS SoftwoodFoliageFallRate,
+                tp.hw_foliage AS HardwoodFoliageFallRate,
+                tp.stem_turnover AS StemAnnualTurnOverRate,
+                tp.sw_branch AS SoftwoodBranchTurnOverRate,
+                tp.hw_branch AS HardwoodBranchTurnOverRate,
+                tp.stem_snag AS StemSnagToDOM,
+                tp.branch_snag AS BranchSnagToDOM,
+                tp.coarse_root AS CoarseRootTurnOverRate,
+                tp.fine_root AS FineRootTurnOverRate,
+                tp.coarse_ag_split AS CoarseAGSplit,
+                tp.fine_ag_split AS FineAGSplit
+            FROM eco_boundary e
+            INNER JOIN turnover_parameter tp
+                ON e.turnover_parameter_id = tp.id",
+        "load_sql": "
+            INSERT INTO eco_boundary (
+                eco_region_id,
+                turnover_parameter_id,
+                name)
+            SELECT
+                er.id,
+                tp.id,
+                @EcoBoundaryName AS name
+            FROM eco_region er, turnover_parameter tp
+            WHERE er.name = @EcoBoundaryName
+                AND tp.sw_foliage = @SoftwoodFoliageFallRate
+                AND tp.hw_foliage = @HardwoodFoliageFallRate
+                AND tp.stem_turnover = @StemAnnualTurnOverRate
+                AND tp.sw_branch = @SoftwoodBranchTurnOverRate
+                AND tp.hw_branch = @HardwoodBranchTurnOverRate
+                AND tp.stem_snag = @StemSnagToDOM
+                AND tp.branch_snag = @BranchSnagToDOM
+                AND tp.coarse_root = @CoarseRootTurnOverRate
+                AND tp.fine_root = @FineRootTurnOverRate
+                AND tp.coarse_ag_split = @CoarseAGSplit
+                AND tp.fine_ag_split = @FineAGSplit"
+    }
+}
