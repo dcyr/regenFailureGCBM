@@ -14,7 +14,7 @@
         "type": "spatial_tiled",
         "landscape": {
             "provider": "RasterTiled",
-            "num_threads": 32,
+            "num_threads": 36,
             "tiles": [],
             "x_pixels": 1000,
             "y_pixels": 1000,
