@@ -47,6 +47,15 @@ file.copy("Pothier-Savard",
           overwrite = T,
           recursive = T)
 
+### attribute tables
+x <- paste(projectName, "classifiersAT", sep = "/")
+print(paste0("Copying classifyers attribute tables to './", x, "'"))
+dir.create(x)
+write.csv(fert_AT, paste(x, "fert_AT.csv", sep ="/"), row.names = F)
+write.csv(dens_AT, paste(x, "dens_AT.csv", sep ="/"), row.names = F)
+write.csv(coverTypes_RAT, paste(x, "ct_AT.csv", sep ="/"), row.names = F)
+
+
 
 
 
