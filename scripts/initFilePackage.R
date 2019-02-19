@@ -6,13 +6,13 @@
 ##### 
 ################################################################################
 ################################################################################
-dir.create(projectName)
+
 
 ### first, copying existing file package
 ### (some files may have needed to be modified manually)
 print(paste0("Copying existing file package to './", projectName, "'"))
 file.copy(sourceGCBM,
-          ".",
+          "./",
           overwrite = T,
           recursive = T,
           copy.mode = TRUE)
@@ -21,7 +21,7 @@ file.rename(gsub("../", "", sourceGCBM),
 
 ### raw spatial layers
 print(paste0("Copying raw spatial layers to './", projectName, "/layers/raw'"))
-file.copy(layerDir,
+file.copy(rawDir,
           paste(projectName, "layers", sep ="/"),
           overwrite = T,
           recursive = T)
@@ -29,13 +29,6 @@ print(paste0("Copying yield curves spatial layers to './", projectName, "/", inp
 
 ### yield curves
 file.copy(inputDbDir,
-          projectName,
-          overwrite = T,
-          recursive = T)
-print(paste0("Copying figures to './", projectName, "/figures'"))
-
-### associated figures
-file.copy("figures",
           projectName,
           overwrite = T,
           recursive = T)
@@ -54,6 +47,16 @@ dir.create(x)
 write.csv(fert_AT, paste(x, "fert_AT.csv", sep ="/"), row.names = F)
 write.csv(dens_AT, paste(x, "dens_AT.csv", sep ="/"), row.names = F)
 write.csv(coverTypes_RAT, paste(x, "ct_AT.csv", sep ="/"), row.names = F)
+
+### figures
+if(plotting) {
+    print(paste0("Copying figures to './", projectName, "/figures'"))
+    ### associated figures
+    file.copy("figures",
+              projectName,
+              overwrite = T,
+              recursive = T)  
+}
 
 
 

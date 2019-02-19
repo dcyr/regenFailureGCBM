@@ -18,8 +18,8 @@ require(dplyr)
 print("Fetching and formatting disturbance spatial data ...")
 
 #######
-distDir <- paste(layerDir, "disturbances", sep = "/")
-dir.create(paste(layerDir, "disturbances", sep = "/"))
+distDir <- paste(rawDir, "disturbances", sep = "/")
+dir.create(paste(rawDir, "disturbances", sep = "/"))
 
 
 distFiles <- list.files(paste0(sourceDir, "/output"))

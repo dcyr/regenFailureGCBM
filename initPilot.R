@@ -35,7 +35,7 @@ timestep <- 1 # simulation time step (currently only work with 1)
 siteIndexInt <- 1 # bin width for site index classes
 r100Int <- 1/9 # bin width for relative density classes
 ageMax <- 150 # max age for yield curves (after which mechantable volumes remain constants)
-plotting <- TRUE
+plotting <- T
 
 
 if(plotting) {
@@ -62,8 +62,8 @@ studyArea <- raster(paste(sourceDir, "studyArea.tif", sep = "/"))
 #### creating 'layers' folder
 layerDir <- "layers"
 dir.create(layerDir)
-layerDir <- paste(layerDir, "raw", sep = "/")
-dir.create(layerDir)
+rawDir <- paste(layerDir, "raw", sep = "/")
+dir.create(rawDir)
 
 ################################################################################
 #### Generating spatial inputs for GCBM experiment
@@ -73,5 +73,6 @@ source("../scripts/initEnvironment.R")
 source("../scripts/initInventory.R")
 # Disturbances inputs
 source("../scripts/initDisturbances.R")
-# Creating GCBM simulation file package
+################################################################################
+#### Creating GCBM simulation file package
 source("../scripts/initFilePackage.R")

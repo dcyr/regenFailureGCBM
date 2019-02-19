@@ -12,7 +12,7 @@ require(raster)
 print('Creating environmental spatial data ...')
 ################################################################################
 ### creating 'layers' folder
-dir.create(paste(layerDir, "environment", sep = "/"))
+dir.create(paste(rawDir, "environment", sep = "/"))
 
 ################################################################################
 #### mean annual temperature
@@ -26,7 +26,7 @@ r <- round(r, 2)
 tMean <- r/10
 #tMean[is.na(studyArea)] <- NA
 #### exporting raster
-filename <- paste(".", layerDir, "environment/tempAnnualMean_C.tif", sep = "/")
+filename <- paste(".", rawDir, "environment/tempAnnualMean_C.tif", sep = "/")
 writeRaster(tMean, filename, overwrite = T)
 print(paste0("file '", filename, "' created"))
 

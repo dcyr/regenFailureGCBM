@@ -18,7 +18,7 @@ require(dplyr)
 print("Fetching and formatting forest inventory spatial data ...")
 
 #######
-dir.create(paste(layerDir, "inventory", sep = "/"))
+dir.create(paste(rawDir, "inventory", sep = "/"))
 
 ################################################################################
 #### initial age
@@ -26,7 +26,7 @@ dir.create(paste(layerDir, "inventory", sep = "/"))
 ageInit <- raster(paste(sourceDir, "tsd.tif", sep = "/"))
 ageInit[ageInit>ageMax] <- ageMax
 #### exporting raster
-filename <- paste(".", layerDir, "inventory/ageInit.tif", sep = "/")
+filename <- paste(".", rawDir, "inventory/ageInit.tif", sep = "/")
 writeRaster(ageInit, filename, overwrite = T)
 print(paste0("file '", filename, "' created"))
 
@@ -107,16 +107,16 @@ names(cls_fert) <- "cls_fert"
 cls_dens[index] <- as.numeric(df$cls_dens)
 names(cls_dens) <- "cls_dens"
 #
-filename <- paste(".", layerDir, "inventory/coverTypes.tif", sep = "/")
-writeRaster(cls_sp, paste(layerDir, "Inventory/coverTypes.tif", sep = "/"), overwrite = T)
+filename <- paste(".", rawDir, "inventory/coverTypes.tif", sep = "/")
+writeRaster(cls_sp, paste(rawDir, "Inventory/coverTypes.tif", sep = "/"), overwrite = T)
 print(paste0("file '", filename, "' created"))
 #
-filename <- paste(".", layerDir, "inventory/fertility.tif", sep = "/")
-writeRaster(cls_fert, paste(layerDir, "Inventory/fertility.tif", sep = "/"), overwrite = T)
+filename <- paste(".", rawDir, "inventory/fertility.tif", sep = "/")
+writeRaster(cls_fert, paste(rawDir, "Inventory/fertility.tif", sep = "/"), overwrite = T)
 print(paste0("file '", filename, "' created"))
 #
-filename <- paste(".", layerDir, "inventory/relDensity.tif", sep = "/")
-writeRaster(cls_dens, paste(layerDir, "Inventory/relDensity.tif", sep = "/"), overwrite = T)
+filename <- paste(".", rawDir, "inventory/relDensity.tif", sep = "/")
+writeRaster(cls_dens, paste(rawDir, "Inventory/relDensity.tif", sep = "/"), overwrite = T)
 print(paste0("file '", filename, "' created"))
 
 
@@ -352,109 +352,110 @@ if(plotting) {
     dev.off()
     
     
+    ### creating summary tables (freq and props)
+    dfSummary <- df %>%
+        filter(ct %in% c("Jack pine", "Black spruce")) %>%
+        group_by(ct, siteIndex, rho100) %>%
+        summarise(freq = n()) %>%
+        ungroup() %>%
+        mutate(prop = freq/sum(freq),
+               relDensity = rho100)
+    
+    #### plotting (optional)
+    # converting to tall format
+    yCurves <- melt(yieldCurves, id.vars = c("coverType", "AIDBSPP", "fertility", "relDensity"),
+                    variable.name = "age",
+                    value.name = "volMerch_cubicMeterPerHa")
+    yCurves$age <- as.numeric(gsub("X", "", yCurves$age))
+    #yCurve$coverType <- coverTypes_RAT[match(yCurve$coverType, coverTypes_RAT$ID), "value"]
+    # reordering levels for nicer plotting
+    prefix <- "Site index ="
+    yCurves$siteIndex <- paste(prefix, fert_AT[match(yCurves$fertility, fert_AT$ID), "value"])
+    lvl <- unique(yCurves$siteIndex)
+    lvl <- lvl[order(as.numeric(gsub(prefix, "", lvl)))]
+    yCurves$siteIndex <- factor(yCurves$siteIndex, levels = lvl)
+    # renaming levels in summary table
+    dfSummary$siteIndex <- paste(prefix,
+                                 fert_AT[match(dfSummary$siteIndex, fert_AT$cls_fert), "value"])
+    dfSummary$siteIndex <- factor(dfSummary$siteIndex, levels = lvl)
+    #
+    prefix <- "rho100 ="
+    yCurves$relDensity <- paste(prefix, dens_AT[match(yCurves$relDensity, dens_AT$ID), "value"])
+    lvl <- unique(yCurves$relDensity)
+    lvl <- lvl[order(as.numeric(gsub(prefix, "", lvl)))]
+    yCurves$relDensity <- factor(yCurves$relDensity, levels = lvl)
+    # renaming levels in summary table
+    dfSummary$relDensity <-  paste(prefix,
+                                   dens_AT[match(dfSummary$relDensity, dens_AT$cls_dens), "value"])
+    
+    dfSummary$relDensity <- factor(dfSummary$relDensity, levels = lvl)
+    dfSummBS <- filter(dfSummary, ct == "Black spruce")
+    dfSummJP <- filter(dfSummary, ct == "Jack pine")
+    dfSummary <- dfSummary %>%
+        group_by(relDensity, siteIndex) %>%
+        summarise(prop = sum(prop, na.rm = T),
+                  propCls = cut(100*prop, c(0,0.1, 1, 3, 100))) %>%
+        mutate(propCls = factor(paste(propCls, "%"),
+                                levels = c("(0,0.1] %", "(0.1,1] %","(1,3] %", "(3,100] %")))
+    
+    
+    # plotting
+    
+    yMax <- max(yCurves$volMerch_cubicMeterPerHa)
+    
+    cols <- tail(brewer.pal(n = length(unique(dfSummary$propCls)) + 1, name = "YlOrBr"),
+                 length(unique(dfSummary$propCls)))
+    
+    p <- ggplot(yCurves, aes(x = age, y = volMerch_cubicMeterPerHa, group = AIDBSPP, colour = AIDBSPP)) +
+        facet_grid(relDensity ~ siteIndex ) +
+        geom_rect(data = dfSummary,inherit.aes = F,
+                  aes(fill = propCls),xmin = -Inf,xmax = Inf,
+                  ymin = -Inf, ymax = Inf, alpha = 0.3) +
+        geom_line() +
+        scale_colour_manual(name = "Stand type",
+                            values = c("Black spruce" = "darkgreen",
+                                       "Jack pine" = "chocolate4") ) +
+        scale_fill_manual(name = "Rel. freq.",
+                          values = cols) +  
+        # values = c("(0,0.1] %" = "grey90",
+        #            "(0.1,0.5] %" = "grey75",
+        #            "(0.5,2] %" = "grey50",
+        #            "(2,100] %" = "grey25") ) +
+        labs(title = paste("Yield curves"),
+             y= expression(paste("Merchantable volume ", (m^3 %.% ha^-1), sep="")),
+             x="/nAge",
+             caption = "Yield curves based on Pothier-Savard (1998)") +
+        
+        geom_text(aes(x = 0, y = yMax, group = NULL,
+                      #label = paste0("taux annuel médian: ", round(100*medianRate, 3), "%")),
+                      label = paste0("N = ", freq, " (", round(100*prop, 2), "%)")),
+                  data = dfSummBS,
+                  hjust = 0, size = 1.75, fontface = 1, colour = "darkgreen") +
+        geom_text(aes(x = 0, y = yMax*0.88, group = NULL,
+                      #label = paste0("taux annuel médian: ", round(100*medianRate, 3), "%")),
+                      label = paste0("N = ", freq, " (", round(100*prop, 2), "%)")),
+                  data = dfSummJP,
+                  hjust = 0, size = 1.75, fontface = 1, colour = "chocolate4") 
+    
+    
+    png(filename = paste0("figures/yieldCurves.png"),
+        #width = 1800, height = (160*length(unique(df$species))+200), units = "px", pointsize = 16,
+        width = (1*length(unique(yCurves$fertility))+1),
+        height = (0.85*length(unique(yCurves$relDensity))+1),
+        res = 300, units = "in", bg = "white")
+    
+    print(p +
+              theme(plot.caption = element_text(size = rel(0.8)),
+                    axis.text.x = element_text(size=8, angle = 45, hjust = 1),
+                    axis.text.y = element_text(size=8),
+                    strip.text.x = element_text(size=6),
+                    strip.text.y = element_text(size=6))
+    )
+    
+    dev.off()
     
 }
 
-### creating summary tables (freq and props)
-dfSummary <- df %>%
-    filter(ct %in% c("Jack pine", "Black spruce")) %>%
-    group_by(ct, siteIndex, rho100) %>%
-    summarise(freq = n()) %>%
-    ungroup() %>%
-    mutate(prop = freq/sum(freq),
-           relDensity = rho100)
 
-#### plotting (optional)
-# converting to tall format
-yCurves <- melt(yieldCurves, id.vars = c("coverType", "AIDBSPP", "fertility", "relDensity"),
-               variable.name = "age",
-               value.name = "volMerch_cubicMeterPerHa")
-yCurves$age <- as.numeric(gsub("X", "", yCurves$age))
-#yCurve$coverType <- coverTypes_RAT[match(yCurve$coverType, coverTypes_RAT$ID), "value"]
-# reordering levels for nicer plotting
-prefix <- "Site index ="
-yCurves$siteIndex <- paste(prefix, fert_AT[match(yCurves$fertility, fert_AT$ID), "value"])
-lvl <- unique(yCurves$siteIndex)
-lvl <- lvl[order(as.numeric(gsub(prefix, "", lvl)))]
-yCurves$siteIndex <- factor(yCurves$siteIndex, levels = lvl)
-# renaming levels in summary table
-dfSummary$siteIndex <- paste(prefix,
-                             fert_AT[match(dfSummary$siteIndex, fert_AT$cls_fert), "value"])
-dfSummary$siteIndex <- factor(dfSummary$siteIndex, levels = lvl)
-#
-prefix <- "rho100 ="
-yCurves$relDensity <- paste(prefix, dens_AT[match(yCurves$relDensity, dens_AT$ID), "value"])
-lvl <- unique(yCurves$relDensity)
-lvl <- lvl[order(as.numeric(gsub(prefix, "", lvl)))]
-yCurves$relDensity <- factor(yCurves$relDensity, levels = lvl)
-# renaming levels in summary table
-dfSummary$relDensity <-  paste(prefix,
-                               dens_AT[match(dfSummary$relDensity, dens_AT$cls_dens), "value"])
-
-dfSummary$relDensity <- factor(dfSummary$relDensity, levels = lvl)
-dfSummBS <- filter(dfSummary, ct == "Black spruce")
-dfSummJP <- filter(dfSummary, ct == "Jack pine")
-dfSummary <- dfSummary %>%
-    group_by(relDensity, siteIndex) %>%
-    summarise(prop = sum(prop, na.rm = T),
-              propCls = cut(100*prop, c(0,0.1, 1, 3, 100))) %>%
-    mutate(propCls = factor(paste(propCls, "%"),
-                            levels = c("(0,0.1] %", "(0.1,1] %","(1,3] %", "(3,100] %")))
-
-
-# plotting
-
-yMax <- max(yCurves$volMerch_cubicMeterPerHa)
-
-cols <- tail(brewer.pal(n = length(unique(dfSummary$propCls)) + 1, name = "YlOrBr"),
-             length(unique(dfSummary$propCls)))
-
-p <- ggplot(yCurves, aes(x = age, y = volMerch_cubicMeterPerHa, group = AIDBSPP, colour = AIDBSPP)) +
-    facet_grid(relDensity ~ siteIndex ) +
-    geom_rect(data = dfSummary,inherit.aes = F,
-              aes(fill = propCls),xmin = -Inf,xmax = Inf,
-              ymin = -Inf, ymax = Inf, alpha = 0.3) +
-    geom_line() +
-    scale_colour_manual(name = "Stand type",
-                        values = c("Black spruce" = "darkgreen",
-                                   "Jack pine" = "chocolate4") ) +
-    scale_fill_manual(name = "Rel. freq.",
-                      values = cols) +  
-                      # values = c("(0,0.1] %" = "grey90",
-                        #            "(0.1,0.5] %" = "grey75",
-                        #            "(0.5,2] %" = "grey50",
-                        #            "(2,100] %" = "grey25") ) +
-    labs(title = paste("Yield curves"),
-         y= expression(paste("Merchantable volume ", (m^3 %.% ha^-1), sep="")),
-         x="/nAge",
-         caption = "Yield curves based on Pothier-Savard (1998)") +
-    
-    geom_text(aes(x = 0, y = yMax, group = NULL,
-                  #label = paste0("taux annuel médian: ", round(100*medianRate, 3), "%")),
-                  label = paste0("N = ", freq, " (", round(100*prop, 2), "%)")),
-              data = dfSummBS,
-              hjust = 0, size = 1.75, fontface = 1, colour = "darkgreen") +
-    geom_text(aes(x = 0, y = yMax*0.88, group = NULL,
-                  #label = paste0("taux annuel médian: ", round(100*medianRate, 3), "%")),
-                  label = paste0("N = ", freq, " (", round(100*prop, 2), "%)")),
-              data = dfSummJP,
-              hjust = 0, size = 1.75, fontface = 1, colour = "chocolate4") 
-    
-
-png(filename = paste0("figures/yieldCurves.png"),
-    #width = 1800, height = (160*length(unique(df$species))+200), units = "px", pointsize = 16,
-    width = (1*length(unique(yCurves$fertility))+1),
-    height = (0.85*length(unique(yCurves$relDensity))+1),
-    res = 300, units = "in", bg = "white")
-
-     print(p +
-               theme(plot.caption = element_text(size = rel(0.8)),
-                     axis.text.x = element_text(size=8, angle = 45, hjust = 1),
-                     axis.text.y = element_text(size=8),
-                     strip.text.x = element_text(size=6),
-                     strip.text.y = element_text(size=6))
-     )
-
-dev.off()
 
 
