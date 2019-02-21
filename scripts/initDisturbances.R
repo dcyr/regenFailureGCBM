@@ -12,10 +12,8 @@ require(raster)
 require(reshape2)
 require(dplyr)
 ################################################################################
-#### mean annual temperature
-#### (could be a sequence of raster)
-######## 
 print("Fetching and formatting disturbance spatial data ...")
+######## 
 
 #######
 distDir <- paste(rawDir, "disturbances", sep = "/")
@@ -25,8 +23,8 @@ dir.create(paste(rawDir, "disturbances", sep = "/"))
 distFiles <- list.files(paste0(sourceDir, "/output"))
 
 ################################################################################
-#### fire
-######## 
+#### all included disturbances
+###################################################################
 fire <- get(load(paste0(sourceDir, "/output/outputFire_", replicates, ".RData")))
 harv <- get(load(paste0(sourceDir, "/output/outputHarvest_", replicates, ".RData")))
 salv <- get(load(paste0(sourceDir, "/output/outputSalvage_", replicates, ".RData")))
@@ -67,6 +65,55 @@ for (l in 1:nlayers(fire)) {
 }
 
 
+
+################################################################################
+####  last_pass_disturbance_type
+###################################################################
+origin <- raster(paste(sourceDir, "data/Inv/ORIGINE.tif", sep = "/"))
+origin_AT <-  read.csv(paste(sourceDir, "data/Inv/ORIGINE_RAT.csv", sep = "/"))
+    
+origin_to_CbmDist <- c(BR = "Wild Fire", ## Brûlis total
+                       CPA = "97% clearcut", ##
+                       CHT = "generic 90% mortality", ## Chablis total
+                       CPR = "97% clearcut", ## Coupe avec protection de la régénération
+                       CRB = "Fire with salvage logging", ## Coupe de récupération dans un brûlis
+                       CRR = "97% clearcut", ## ??? Récolte des tiges résiduelles et des rebuts
+                       CT = "97% clearcut", ## Coupe totale
+                       DT = "Wild Fire", ## Dépérissement total
+                       ES = "Insect Disturbance", ## Épidémie grave
+                       P = "97% clearcut", ## Plantation de semis cultivés (à racines nues ou en récipients) ou de boutures
+                       PRR = "97% clearcut", ## ?? un type de plantation, après récup?
+                       REA = "Wild Fire", ## Régénération d’une aire d’ébranchage
+                       RPS = "Fire with salvage logging") ## Récupération en vertu d’un plan spécial d’aménagement
+ 
+last_pass_disturbance_type_AT <- data.frame(ID = 1:length(unique(origin_to_CbmDist)),
+                                            value = unique(origin_to_CbmDist))
+
+## matching ORIGINE values with CBM disturbances types
+x <- values(origin)
+x <- origin_AT[match(x , origin_AT$ID), "value"]
+x <- origin_to_CbmDist[match(as.character(x), names(origin_to_CbmDist))]
+
+x <- last_pass_disturbance_type_AT[match(x, last_pass_disturbance_type_AT$value), "ID"]
+
+
+
+
+## creating raster
+last_pass_disturbance_type <- origin
+last_pass_disturbance_type[] <- x
+last_pass_disturbance_type[is.na(coverTypes)] <- NA
+#
+dir.create(paste(rawDir, "last_pass_disturbance", sep = "/"))
+writeRaster(last_pass_disturbance_type,
+            file = paste0(rawDir, "/last_pass_disturbance/last_pass_disturbance_type.tif"),
+            overwrite = T)
+write.csv(last_pass_disturbance_type_AT,
+          file = paste0(rawDir, "/last_pass_disturbance/last_pass_disturbance_type_AT.csv"),
+          row.names = F)
+################################################################################
+####  plotting
+###################################################################
 if(plotting) {
     
     ### 
@@ -252,7 +299,6 @@ if(plotting) {
 
         
     ###################################################################
-    ###################################################################
     ### plotting cumulative figure
     cols <- unique(df$col)
     names(cols) <- cols
@@ -311,10 +357,5 @@ if(plotting) {
                 paste("./figures/individualTimeSteps",
                       basename(filenames[-length(filenames)]), sep = "/"))
 }
-
-
-
-
-
 
 

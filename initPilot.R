@@ -35,7 +35,7 @@ timestep <- 1 # simulation time step (currently only work with 1)
 siteIndexInt <- 1 # bin width for site index classes
 r100Int <- 1/9 # bin width for relative density classes
 ageMax <- 150 # max age for yield curves (after which mechantable volumes remain constants)
-plotting <- T
+plotting <- F
 
 
 if(plotting) {

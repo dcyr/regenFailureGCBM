@@ -1,0 +1,2 @@
+This build is backwards-compatible with older projects, but adds new transition rule features - see "GCBM Transition rules update.docx" for details.
+Requires new build of Recliner2GCBM to use new transition rules.

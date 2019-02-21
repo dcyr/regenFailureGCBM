@@ -4,6 +4,7 @@
     "Common/pool_data.json",
     "Common/root_parameters.json",
     "Common/dom_pools.json",
+    "Common/transition_types.json",
     "Common/admin_regions.json",
     "Common/eco_regions.json",
     "Common/decay_parameters.json",

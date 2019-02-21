@@ -260,3 +260,5 @@ r <- raster("../processed_output/spatial/AG_Biomass_C_2016.tiff")
 
 plot(r)
 
+
+

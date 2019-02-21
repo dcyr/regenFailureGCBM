@@ -108,11 +108,19 @@ if __name__ == "__main__":
 
         layers = [
             # Age - layer name must be "initial_age" so that the script can update the GCBM configuration file.
-            RasterLayer(os.path.join(layer_root, "inventory", "ageInit.tif"), name="initial_age"),
+            RasterLayer(os.path.join(layer_root, "inventory", "ageInit.tif"),
+                        name="initial_age"),
             
             # Temperature - layer name must be "mean_annual_temperature" so that the scripts can
             # update the GCBM configuration file.
-            RasterLayer(os.path.join(layer_root, "environment", "tempAnnualMean_C.tif"), name = "mean_annual_temperature")
+            RasterLayer(os.path.join(layer_root, "environment", "tempAnnualMean_C.tif"),
+                        name = "mean_annual_temperature"),
+			
+			# Last oas
+            RasterLayer(os.path.join(layer_root, "last_pass_disturbance", "last_pass_disturbance_type.tif"),
+                        attributes=["value"],
+                        attribute_table=csv_to_dict(os.path.join(layer_root, "last_pass_disturbance", "last_pass_disturbance_type_AT.csv"),
+                                                    "ID", ["value"]))
         ] + classifier_layers
 
 		# Disturbances
