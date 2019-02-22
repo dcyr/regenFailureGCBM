@@ -102,8 +102,11 @@ x <- last_pass_disturbance_type_AT[match(x, last_pass_disturbance_type_AT$value)
 ## creating raster
 last_pass_disturbance_type <- origin
 last_pass_disturbance_type[] <- x
+## default NA's to "Wild Fire"
+last_pass_disturbance_type[is.na(last_pass_disturbance_type)] <-
+    last_pass_disturbance_type_AT[which(last_pass_disturbance_type_AT$value == "Wild Fire"), "ID"]
 last_pass_disturbance_type[is.na(coverTypes)] <- NA
-#
+## 
 dir.create(paste(rawDir, "last_pass_disturbance", sep = "/"))
 writeRaster(last_pass_disturbance_type,
             file = paste0(rawDir, "/last_pass_disturbance/last_pass_disturbance_type.tif"),
@@ -111,6 +114,7 @@ writeRaster(last_pass_disturbance_type,
 write.csv(last_pass_disturbance_type_AT,
           file = paste0(rawDir, "/last_pass_disturbance/last_pass_disturbance_type_AT.csv"),
           row.names = F)
+
 ################################################################################
 ####  plotting
 ###################################################################
