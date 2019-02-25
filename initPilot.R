@@ -36,6 +36,8 @@ siteIndexInt <- 1 # bin width for site index classes
 r100Int <- 1/9 # bin width for relative density classes
 ageMax <- 150 # max age for yield curves (after which mechantable volumes remain constants)
 plotting <- F
+## with post-fire regen failure
+regenFailure <- T
 
 
 if(plotting) {

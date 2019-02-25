@@ -29,7 +29,7 @@ clusterN <-  min(length(simID), floor(0.5*detectCores()))  ### choose number of 
 cl = makeCluster(clusterN, outfile = "") ##
 registerDoSNOW(cl)
 #######
-outputSummary <- foreach(i = seq_along(simID)) %dopar% {
+outputSummary <- foreach(i = c(1:2,4)) %dopar% {#seq_along(simID)) %dopar% {
     require(RSQLite)
     require(dbplyr)
     require(dplyr)
@@ -72,9 +72,10 @@ outputSummary <- foreach(i = seq_along(simID)) %dopar% {
                 fluxes  = fluxes))
 }
 
+
+### put all this into single data.frames (one for pools, one for fluxes)
 pools <- do.call("rbind", lapply(outputSummary, function(x) x[["pools"]]))
 fluxes <- do.call("rbind", lapply(outputSummary, function(x) x[["fluxes"]]))
-
 
 
 require(ggplot2)
@@ -94,8 +95,10 @@ ggplot(df, aes(x = year, y = totalC/totalArea,
 dev.off()
 
 
+## remove year 0, (might want to deal with this )
 df <- fluxes %>%
     filter(year != 0)
+
 png(filename= paste0("fluxesSummary.png"),
     width = 12, height = 8, units = "in", res = 600, pointsize=10)
 

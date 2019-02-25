@@ -28,44 +28,65 @@ distFiles <- list.files(paste0(sourceDir, "/output"))
 fire <- get(load(paste0(sourceDir, "/output/outputFire_", replicates, ".RData")))
 harv <- get(load(paste0(sourceDir, "/output/outputHarvest_", replicates, ".RData")))
 salv <- get(load(paste0(sourceDir, "/output/outputSalvage_", replicates, ".RData")))
+rho100 <- get(load(paste0(sourceDir, "/output/outputRho100_", replicates, ".RData")))
+### reclassify rho100 based on dens_AT
+rho100ReClass <- rho100
+rho100ReClass[] <- as.numeric(cut(values(rho100), rho100CutOffs))
+
+### for verifying reclassifcation
+# foo <- data.frame(rho100 = values(rho100[[1]]),
+#                   rho100ID = values(rho100ReClass[[1]]))
+# foo <-  foo[complete.cases(foo),]
+# foo[,"cls"] <- dens_AT[match(foo$rho100ID, dens_AT$ID),"cls_dens"]
+# head(foo, 10)
+
+
 
 index <- is.na(cls_sp)
-fire[index] <- harv[index] <- salv[index] <- NA
+fire[index] <- harv[index] <- salv[index] <- rho100[index] <- NA
 
 for (l in 1:nlayers(fire)) {
     
     year <- yearInit + l
     
-    ## wild fires
-    r <- fire[[l]]
-    if(sum(values(r), na.rm = T) > 0) {
-        lName <- paste("fire", year, sep = "_")
-        names(r) <- lName
-        writeRaster(r, filename = paste0(distDir, "/", lName, ".tif"),
-                    overwrite = TRUE)
-    }
-    
     ## clearcut harvesting
-    r <- harv[[l]]
-    if(sum(values(r), na.rm = T) > 0) {
+    cc <- harv[[l]]
+    if(sum(values(cc), na.rm = T) > 0) {
         lName <- paste("cc", year, sep = "_")
-        names(r) <- lName
-        writeRaster(r, filename = paste0(distDir, "/", lName, ".tif"),
+        names(cc) <- lName
+        writeRaster(cc, filename = paste0(distDir, "/", lName, ".tif"),
                     overwrite = TRUE)
     }
     
     ## wild fires
-    r <- salv[[l]]
-    if(sum(values(r), na.rm = T) > 0) {
+    s <- salv[[l]]
+    if(sum(values(s), na.rm = T) > 0) {
         lName <- paste("salv", year, sep = "_")
-        names(r) <- lName
-        writeRaster(r, filename = paste0(distDir, "/", lName, ".tif"),
+        names(s) <- lName
+        writeRaster(s, filename = paste0(distDir, "/", lName, ".tif"),
+                    overwrite = TRUE)
+    }
+    
+    ## wild fires
+    f <- rho100ReClass[[l]]
+    f[is.na(fire[[l]])] <- NA
+
+    if(sum(values(f), na.rm = T) > 0) {
+        lName <- paste("fire", year, sep = "_")
+        names(f) <- lName
+        writeRaster(f, filename = paste0(distDir, "/", lName, ".tif"),
                     overwrite = TRUE)
     }
 }
 
-
-
+fire_AT <- data.frame(ID = dens_AT$ID,
+                      #name = "Post-fire regeneration density transition",
+                      type = "absolute", ## “absolute”, “relative” , or "yield"
+                      disturbanceType = "Wild Fire",
+                      fertilityUpdate =  "?",
+                      coverTypeUpdate = "?",
+                      relDensityUpdate = dens_AT$ID)
+write.csv(fire_AT, file = paste0(distDir, "/fire_AT.csv"), row.names = F)
 ################################################################################
 ####  last_pass_disturbance_type
 ###################################################################
@@ -106,6 +127,7 @@ last_pass_disturbance_type[] <- x
 last_pass_disturbance_type[is.na(last_pass_disturbance_type)] <-
     last_pass_disturbance_type_AT[which(last_pass_disturbance_type_AT$value == "Wild Fire"), "ID"]
 last_pass_disturbance_type[is.na(coverTypes)] <- NA
+
 ## 
 dir.create(paste(rawDir, "last_pass_disturbance", sep = "/"))
 writeRaster(last_pass_disturbance_type,

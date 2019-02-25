@@ -88,6 +88,8 @@ rho100CutOffs <- c(0, round(quantile(df$rho100, seq(r100Int, 1, r100Int)),2))
 rho100MidPts <- rho100CutOffs[-length(rho100CutOffs)] + (diff(rho100CutOffs)/2)
 df[,"cls_dens"] <- cut(df$rho100, rho100CutOffs)
 
+# foo <- runif(10)
+# cut(foo, rho100CutOffs)
 ####  creating classifier atttribute tables (for future reference)
 fert_AT <- data.frame(ID = 1:length(levels(df$cls_fert)),
                       cls_fert = levels(df$cls_fert),

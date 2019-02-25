@@ -131,21 +131,42 @@ if __name__ == "__main__":
             d = dist[i]
             dName = distName[i]
             
-            for layer_path in scan_for_layers(os.path.join(layer_root, "disturbances"), d + "_*.tif"):
-				# Extract the year from the filename.
-				layer_name = os.path.basename(os.path.splitext(layer_path)[0])
-				year = layer_name[-4:]
-				
-				layers.append(DisturbanceLayer(
-					rule_manager,
-					RasterLayer(
-						os.path.abspath(layer_path),
-						attributes=["disturbed"],
-						attribute_table={
-							1: [1]
-						}),
-					year=year,
-					disturbance_type=dName))
+            if d == "fire":
+                for layer_path in scan_for_layers(os.path.join(layer_root, "disturbances"), d + "_*.tif"):
+    				# Extract the year from the filename.
+    				layer_name = os.path.basename(os.path.splitext(layer_path)[0])
+    				year = layer_name[-4:]
+    				
+    				layers.append(DisturbanceLayer(
+    					rule_manager,
+    					RasterLayer(
+    						os.path.abspath(layer_path),
+    						attributes=["type","disturbanceType","relDensityUpdate", "fertilityUpdate", "coverTypeUpdate"],
+                            attribute_table=csv_to_dict(os.path.join(layer_root, "disturbances", "fire_AT.csv"),
+                                                    "ID", ["type", "disturbanceType", "relDensityUpdate", "fertilityUpdate", "coverTypeUpdate"])),
+                        year=year,
+    					disturbance_type=Attribute("disturbanceType"),
+                        transition=TransitionRule(
+                                regen_delay=0,
+                                age_after=0,
+                        classifiers=["type", "disturbanceType", "coverTypeUpdate","fertilityUpdate", "relDensityUpdate"])))
+                        
+            else:
+                for layer_path in scan_for_layers(os.path.join(layer_root, "disturbances"), d + "_*.tif"):
+    				# Extract the year from the filename.
+    				layer_name = os.path.basename(os.path.splitext(layer_path)[0])
+    				year = layer_name[-4:]
+    				
+    				layers.append(DisturbanceLayer(
+    					rule_manager,
+    					RasterLayer(
+    						os.path.abspath(layer_path),
+    						attributes=["disturbed"],
+    						attribute_table={
+    							1: [1]
+    						}),
+    					year=year,
+    					disturbance_type=dName))
 				
         tiler.tile(layers)
         rule_manager.write_rules()
