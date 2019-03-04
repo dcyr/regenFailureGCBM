@@ -13,7 +13,6 @@ require(reshape2)
 require(dplyr)
 ################################################################################
 print("Fetching and formatting disturbance spatial data ...")
-######## 
 
 #######
 distDir <- paste(rawDir, "disturbances", sep = "/")
@@ -25,25 +24,22 @@ distFiles <- list.files(paste0(sourceDir, "/output"))
 ################################################################################
 #### all included disturbances
 ###################################################################
-fire <- get(load(paste0(sourceDir, "/output/outputFire_", replicates, ".RData")))
-harv <- get(load(paste0(sourceDir, "/output/outputHarvest_", replicates, ".RData")))
-salv <- get(load(paste0(sourceDir, "/output/outputSalvage_", replicates, ".RData")))
-rho100 <- get(load(paste0(sourceDir, "/output/outputRho100_", replicates, ".RData")))
-### reclassify rho100 based on dens_AT
-rho100ReClass <- rho100
-rho100ReClass[] <- as.numeric(cut(values(rho100), rho100CutOffs))
+fire <- get(load(paste0(sourceDir, "/output/outputFire_", sourceSimID, ".RData")))
+harv <- get(load(paste0(sourceDir, "/output/outputHarvest_", sourceSimID, ".RData")))
+salv <- get(load(paste0(sourceDir, "/output/outputSalvage_", sourceSimID, ".RData")))
 
-### for verifying reclassifcation
-# foo <- data.frame(rho100 = values(rho100[[1]]),
-#                   rho100ID = values(rho100ReClass[[1]]))
-# foo <-  foo[complete.cases(foo),]
-# foo[,"cls"] <- dens_AT[match(foo$rho100ID, dens_AT$ID),"cls_dens"]
-# head(foo, 10)
-
-
+if (regenFailure) {
+    rho100 <- get(load(paste0(sourceDir, "/output/outputRho100_", sourceSimID, ".RData")))
+    ### reclassify rho100 based on dens_AT
+    rho100ReClass <- rho100
+    rho100ReClass[] <- as.numeric(cut(values(rho100), rho100CutOffs))
+}
 
 index <- is.na(cls_sp)
-fire[index] <- harv[index] <- salv[index] <- rho100[index] <- NA
+fire[index] <- harv[index] <- salv[index] <- NA
+if(regenFailure) {
+    rho100[index] <- NA
+}
 
 for (l in 1:nlayers(fire)) {
     
@@ -68,9 +64,13 @@ for (l in 1:nlayers(fire)) {
     }
     
     ## wild fires
-    f <- rho100ReClass[[l]]
-    f[is.na(fire[[l]])] <- NA
-
+    if(regenFailure) {
+        f <- rho100ReClass[[l]]
+        f[is.na(fire[[l]])] <- NA
+    } else {
+        f <- fire[[l]]
+    }
+    
     if(sum(values(f), na.rm = T) > 0) {
         lName <- paste("fire", year, sep = "_")
         names(f) <- lName
@@ -79,14 +79,17 @@ for (l in 1:nlayers(fire)) {
     }
 }
 
-fire_AT <- data.frame(ID = dens_AT$ID,
-                      #name = "Post-fire regeneration density transition",
-                      type = "absolute", ## “absolute”, “relative” , or "yield"
-                      disturbanceType = "Wild Fire",
-                      fertilityUpdate =  "?",
-                      coverTypeUpdate = "?",
-                      relDensityUpdate = dens_AT$ID)
-write.csv(fire_AT, file = paste0(distDir, "/fire_AT.csv"), row.names = F)
+if(regenFailure) {
+    fire_AT <- data.frame(ID = dens_AT$ID,
+                          #name = "Post-fire regeneration density transition",
+                          type = "absolute", ## “absolute”, “relative” , or "yield"
+                          disturbanceType = "Wild Fire",
+                          fertilityUpdate =  "?",
+                          coverTypeUpdate = "?",
+                          relDensityUpdate = dens_AT$ID)
+    write.csv(fire_AT, file = paste0(distDir, "/fire_AT.csv"), row.names = F)
+    
+}
 ################################################################################
 ####  last_pass_disturbance_type
 ###################################################################
@@ -166,9 +169,9 @@ if(plotting) {
     mask[lakes] <- NA
     
     ### reload them to get full info
-    fire <- get(load(paste0(sourceDir, "/output/outputFire_", replicates, ".RData")))
-    harv <- get(load(paste0(sourceDir, "/output/outputHarvest_", replicates, ".RData")))
-    salv <- get(load(paste0(sourceDir, "/output/outputSalvage_", replicates, ".RData")))
+    fire <- get(load(paste0(sourceDir, "/output/outputFire_", sourceSimID, ".RData")))
+    harv <- get(load(paste0(sourceDir, "/output/outputHarvest_", sourceSimID, ".RData")))
+    salv <- get(load(paste0(sourceDir, "/output/outputSalvage_", sourceSimID, ".RData")))
     
     fire[is.na(mask)] <- harv[is.na(mask)] <- salv[is.na(mask)] <- NA
     

@@ -29,7 +29,7 @@ clusterN <-  min(length(simID), floor(0.5*detectCores()))  ### choose number of 
 cl = makeCluster(clusterN, outfile = "") ##
 registerDoSNOW(cl)
 #######
-outputSummary <- foreach(i = c(1:2,4)) %dopar% {#seq_along(simID)) %dopar% {
+outputSummary <- foreach(i = seq_along(simID)) %dopar% {
     require(RSQLite)
     require(dbplyr)
     require(dplyr)
@@ -56,11 +56,19 @@ outputSummary <- foreach(i = c(1:2,4)) %dopar% {#seq_along(simID)) %dopar% {
     poolDim <- unique(r_pool_indicators$name)
     
     pools <- foreach(k = seq_along(poolDim), .combine = "rbind") %do% {
-        x <- poolSummarise(poolDim[k]) 
+        x <- poolSummarise(poolDim[k], c(
+            dateDim = T,
+            classifierSetDim = T,
+            landClassDim = F,
+            ageClassDim = T)) 
         return(x)
     }
     fluxes <- foreach(k = seq_along(fluxDim), .combine = "rbind") %do% {
-        x <- fluxSummarise(fluxDim[k]) 
+        x <- fluxSummarise(fluxDim[k], groupingVar = c(
+            dateDim = T,
+            classifierSetDim = T,
+            landClassDim = F,
+            ageClassDim = T)) 
         return(x)
     }
     pools <- data.frame(simID = simID[i], pools) %>%
@@ -95,15 +103,21 @@ ggplot(df, aes(x = year, y = totalC/totalArea,
 dev.off()
 
 
-## remove year 0, (might want to deal with this )
+# remove year 0, (might want to deal with this )
 df <- fluxes %>%
-    filter(year != 0)
+    filter(year != 0,
+           simID %in% c("test_extreme", "test_extreme_wTransition")) %>%
+    group_by(simID, indicator, year) %>%
+    summarise(flux_tc = sum(flux_tc),
+              area = sum(area))
+
+
 
 png(filename= paste0("fluxesSummary.png"),
     width = 12, height = 8, units = "in", res = 600, pointsize=10)
 
 
-ggplot(df, aes(x = year, y = flux_tc/area,
+ggplot(df, aes(x = year, y = area,
                colour = simID, group = simID)) +
     theme_dark() +
     facet_wrap(~indicator) +
@@ -111,3 +125,26 @@ ggplot(df, aes(x = year, y = flux_tc/area,
     geom_hline(yintercept = 0, linetype = 1,
                color = "grey75", size = 0.15)
 dev.off()
+
+
+################## exploring individual fluxes
+df <- fluxes %>%
+    filter(year != 0,
+           #age_range == "0-19",
+           indicator == "NPP"#,
+           #simID %in% c("test_wLastPassDist", "test_wTransitions")
+           ) %>%
+    group_by(simID, year, age_range) %>%
+    summarise(flux_tc = sum(flux_tc),
+              area = sum(area))
+
+
+ggplot(df, aes(x = year, y = flux_tc/area,
+               colour = simID)) +
+    theme_dark() +
+    facet_wrap( ~ age_range) +
+    geom_line(size = 0.5) +
+    geom_hline(yintercept = 0, linetype = 1,
+               color = "grey75", size = 0.15)
+
+
