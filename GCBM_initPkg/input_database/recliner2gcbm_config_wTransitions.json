@@ -1,0 +1,84 @@
+{
+  "Project": {
+    "Mode": 0,
+    "Configuration": 0
+  },
+  "OutputConfiguration": {
+    "Name": "SQLite",
+    "Parameters": {
+      "path": "gcbm_input.db"
+    }
+  },
+  "AIDBPath": "ArchiveIndex_Beta_Install.mdb",
+  "ClassifierSet": [
+    {
+      "Name": "coverType",
+      "Path": "yield.csv",
+      "Page": 0,
+      "Column": 0,
+      "Header": true
+    },
+    {
+      "Name": "fertility",
+      "Path": "yield.csv",
+      "Page": 0,
+      "Column": 1,
+      "Header": true
+    },
+    {
+      "Name": "relDensity",
+      "Path": "yield.csv",
+      "Page": 0,
+      "Column": 2,
+      "Header": true
+    }
+  ],
+  "GrowthCurves": {
+    "Path": "yield.csv",
+    "Page": 0,
+    "Header": true,
+    "SpeciesCol": 3,
+    "IncrementStartCol": 4,
+    "IncrementEndCol": 34,
+    "Interval": 5,
+    "Classifiers": [
+      {
+        "Name": "coverType",
+        "Column": 0
+      },
+      {
+        "Name": "fertility",
+        "Column": 1
+      },
+      {
+        "Name": "relDensity",
+        "Column": 2
+      }
+    ]
+  },
+  "TransitionRules": {
+    "Path": "../layers/tiled/transition_rules.csv",
+    "Page": 0,
+    "Header": true,
+    "NameCol": 0,
+    "AgeCol": 2,
+    "DelayCol": 1,
+    "TypeCol": 6,
+    "RuleDisturbanceTypeCol": 7,
+    "Classifiers": [
+      {
+        "Name": "coverType",
+        "Column": 4
+      },
+      {
+        "Name": "fertility",
+        "Column": 5
+      },
+      {
+        "Name": "relDensity",
+        "Column": 3
+      }
+    ],
+    "RuleClassifiers": []
+  }
+}
