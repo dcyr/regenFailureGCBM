@@ -190,6 +190,7 @@ write.table(yieldCurves, file=fileName,
 
 if(plotting) {
     require(RColorBrewer)
+    require(colorspace)
     
     # mask of all the study area 
     mask <- raster(paste(sourceDir, "data/DUMMY.tif", sep = "/"))
@@ -270,11 +271,11 @@ if(plotting) {
     ### plotting site index
     
     dfTmp <- df[complete.cases(df),]
-    cols <- tail(rev(heat_hcl(n = length(unique(dfTmp$rho100))+1,
+    cols <- tail(rev(heat_hcl(n = length(unique(dfTmp$siteIndex))+1,
                                  c = c(80, 30),
                                  l = c(30, 90),
                                  power = c(1/3, 1.5))),
-                 length(unique(dfTmp$rho100)))
+                 length(unique(dfTmp$siteIndex)))
     # cols <- brewer.pal(n = length(unique(dfTmp$cls_fert)),
     #                               name = "YlOrBr")
         #tail(brewer.pal(n = 9, name = "YlOrRd"), length(unique(dfTmp$cls_fert)))
@@ -318,7 +319,8 @@ if(plotting) {
                              c = c(65, 0),
                              l = c(45, 95),
                              power = c(1/3, 1.5))),
-                 length(unique(dfTmp$rho100)))
+                 length(unique(dfTmp$rho100))*3)
+    cols <- cols[which(seq_along(cols)%%3 == 0)]
     # cols <- brewer.pal(n = length(unique(dfTmp$rho100)),
     #                    name = "YlGn")
     

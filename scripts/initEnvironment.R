@@ -33,7 +33,7 @@ print(paste0("file '", filename, "' created"))
 
 ### optional plotting of initial conditions
 if(plotting) {
-
+    
     ### mean annual temperature
     r <- tMean
     r[lakes] <- NA

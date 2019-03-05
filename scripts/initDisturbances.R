@@ -144,9 +144,10 @@ write.csv(last_pass_disturbance_type_AT,
 ####  plotting
 ###################################################################
 if(plotting) {
-    
+    dir.create("figures")
     ### 
     library(gridExtra)
+    require(ggplot2)
     g_legend<-function(a.gplot){
         tmp <- ggplot_gtable(ggplot_build(a.gplot))
         leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")

@@ -27,10 +27,10 @@ require(raster)
 # general input parameters
 yearInit <- 2015
 simDuration <- 50
-n <- 25
+n <- 20
 timestep <- 1 # simulation time step (currently only work with 1)
 siteIndexInt <- 1 # bin width for site index classes
-r100Int <- 1/9 # bin width for relative density classes
+r100Int <- 1/3 # bin width for relative density classes
 ageMax <- 150 # max age for yield curves (after which mechantable volumes remain constants)
 plotting <- F
 ###############################################################################
@@ -53,8 +53,22 @@ simInfo <- data.frame(simID = as.character(str_pad(00:(nrow(simInfo)-1),
                                                    pad = "0")),
                       simInfo,
                       stringsAsFactors = F)
-simInfo <- simInfo[1:20,]
 
+if (plotting) { ### loading a few data sets for plotting
+    require(ggplot2)
+    require(colorspace)
+    require(RColorBrewer)
+    
+    dir.create("figures")
+    lakes <- raster(paste(sourceDir, "data/lakes.tif", sep = "/"))
+    studyAreaP <- get(load(paste(sourceDir, "data/studyAreaP.RData", sep = "/")))
+    studyAreaF <- fortify(studyAreaP)
+    
+    pWidth <- 1600
+    pHeight <- 1300
+    pointsize <- 12
+    options(scipen=999)
+}
 
 ################################################################################
 #### Generating common environmental inputs
@@ -101,21 +115,6 @@ foreach(sim = 1:nrow(simInfo),
     dir.create(simDir)
     setwd(simDir)
     
-    if(plotting) {
-        require(ggplot2)
-        require(colorspace)
-        require(RColorBrewer)
-        dir.create("figures")
-        #dir.create("figures/initialConditions")
-        studyAreaP <- get(load(paste(sourceDir, "studyAreaP.RData", sep = "/")))
-        studyAreaF <- fortify(studyAreaP)
-        lakes <- raster(paste(sourceDir, "data/lakes.tif", sep = "/"))
-        pWidth  <- 1400
-        pHeight <- 1200
-        pointsize <- 8
-        options(scipen=999)
-    }
-    
     ################################################################################
     #### copying 'layers' folder
     file.copy("../layers",
@@ -139,6 +138,6 @@ foreach(sim = 1:nrow(simInfo),
 stopCluster(cl)
   
 write.csv(simInfo, "simInfo.csv", row.names = F)
-
+file.copy(paste(sourceGCBM, "simPilot.R", sep = "/"), ".", overwrite = T)
 
 
