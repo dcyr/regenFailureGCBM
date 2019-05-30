@@ -27,12 +27,13 @@ require(raster)
 # general input parameters
 yearInit <- 2015
 simDuration <- 50
-n <- 20
+n <- 1
 timestep <- 1 # simulation time step (currently only work with 1)
 siteIndexInt <- 1 # bin width for site index classes
 r100Int <- 1/3 # bin width for relative density classes
 ageMax <- 150 # max age for yield curves (after which mechantable volumes remain constants)
-plotting <- F
+plotting <- T
+#nCores <- 12 ## number of cores to use during GCBM simulations
 ###############################################################################
 ### experimental design (replicates, treatments)
 # replicates

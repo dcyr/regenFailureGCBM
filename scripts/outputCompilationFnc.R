@@ -12,7 +12,7 @@ indicatorPoolSelect <- function(x) {## where 'x' is the name of the Indicator
               by.y = "id") %>%
         merge(r_pool_collection_pools) %>%
         mutate(pool_indicator_id = id) %>%
-        select(pool_indicator_id,
+        dplyr::select(pool_indicator_id,
                name,
                pool_collection_id,
                description,
