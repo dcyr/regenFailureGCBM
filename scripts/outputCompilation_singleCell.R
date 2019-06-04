@@ -7,7 +7,7 @@ wwd <- paste(simDir, Sys.Date(), sep = "/")
 dir.create(wwd)
 setwd(wwd)
 ###
-simID <- c("regenFailure", "noRegenFailure")
+simID <- c("singleCellSims_regenFailure", "singleCellSims_noRegenFailure")
 
 
 ## copying useful functions to the wd

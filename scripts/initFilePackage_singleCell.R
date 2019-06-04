@@ -6,7 +6,8 @@
 ##### 
 ################################################################################
 ################################################################################
-
+library(stringr)
+require(rjson)
 
 ### first, copying existing file package
 ### (some files may have needed to be modified manually)
@@ -76,11 +77,12 @@ if(regenFailure) {
     file.remove(paste0(simDir, "/input_database/recliner2gcbm_config_wTransitions.json"))
     file.remove(paste0(simDir, "/tools/Tiler/tiler_wTransitions.py"))
 }
+
 localdomain <- fromJSON(file = paste0(simDir, "/gcbm_project/templates/localdomain.json"))
 
 
 ### updating start_date, end_date, resolution, etc...
-require(rjson)
+
 ### localdomain: start / end dates, + other stuff
 # start_date, end_date
 localdomain$LocalDomain$start_date <- paste(yearInit+1, "01", "01", sep = "/")
@@ -100,12 +102,15 @@ resolution <- floor(min(res(studyAreaLL))*1000)/1000
 x <- readLines(tiler)
 # finding the line with parameter (only the first instance is updated...)
 index <- grep("pixel_size", x)[1]
-x[index] <- gsub("([0-9]+).*$", resolution, x[index]) 
-
-sink(file = paste0(tiler, "foo"))
+# replacing resolution value
+x[index] <- gsub(str_extract_all(x[index], "[0-9]+\\.[0-9]+"),
+                 resolution, x[index]) 
+# writing to file
+sink(file = paste0(tiler))
 writeLines(x)
 sink()
 
+### renaming files and removing old ones
 file.copy(recliner2gcbmConfig,
             paste0(simDir, "/input_database/recliner2gcbm_config.json"),
           overwrite = T)
