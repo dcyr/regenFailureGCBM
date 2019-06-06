@@ -96,7 +96,7 @@ sink()
 ### 
 # # resolution
 studyAreaLL <- projectRaster(studyArea, crs = CRS("+init=epsg:4326"))
-resolution <- floor(min(res(studyAreaLL))*1000)/1000
+resolution <- (floor(min(res(studyAreaLL))*1000)/1000)/2
 
 ### updating resolution in tiler
 x <- readLines(tiler)

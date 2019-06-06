@@ -22,27 +22,26 @@ source("outputCompilationFnc.R")
 ###################################################################
 ### pool and fluxes of interest
 ###################################################################
-require(doSNOW)
-require(parallel)
+
 require(foreach)
 # clusterN <- 2
-clusterN <-  min(length(simID), floor(0.5*detectCores()))  ### choose number of nodes to add to cluster.
+
 #######
-cl = makeCluster(clusterN, outfile = "") ##
-registerDoSNOW(cl)
-#######
-outputSummary <- foreach(i = seq_along(simID)) %dopar% {
+outputSummary <- foreach(i = seq_along(simID)) %do% {
     require(RSQLite)
     require(dbplyr)
     require(dplyr)
     require(doSNOW)
     require(raster)
+    require(parallel)
     
     sDir <- paste("..", simID[i], sep = "/")
     studyArea <- raster(paste0(sDir, "/studyArea.tif"))
     simInfo <- read.csv(paste0(sDir, "/simInfo.csv"))
     
-    
+    ct_AT <- read.csv(paste(sDir, "classifiersAT/ct_AT.csv", sep = "/"))
+    dens_AT <- read.csv(paste(sDir, "classifiersAT/dens_AT.csv", sep = "/"))
+    fert_AT <- read.csv(paste(sDir, "classifiersAT/fert_AT.csv", sep = "/"))
     
     
     ###################################################################
@@ -95,124 +94,60 @@ outputSummary <- foreach(i = seq_along(simID)) %dopar% {
     ## spatial outputs
 
     outputSpatialDir <- paste(sDir, "processed_output/spatial", sep = "/")
-    x <- list.files(outputSpatialDir)
-    var <- substr(x, 1, nchar(x)-10)
+    f <- list.files(outputSpatialDir)
+    var <- substr(f, 1, nchar(f)-10)
     var <- unique(var)
     
-    for (j in seq_along(var)) {
+    clusterN <- length(var)# min(length(simID), floor(0.5*detectCores()))  ### choose number of nodes to add to cluster.
+    #######
+    cl = makeCluster(clusterN, outfile = "") ##
+    registerDoSNOW(cl)
+    spatialOutputs <- foreach(j = seq_along(var), .combine = "rbind") %dopar% {
+        require(raster)
+        require(tidyr)
+        require(reshape2)
         v <- var[j]
-        tmp <- x[grep(v, x)]
-        y <- as.numeric(gsub("[^0-9]", "", tmp))
+        tmp <- f[grep(v, f)]
+        lNames <- gsub(".tiff", "", tmp)
+        
         r <- stack(paste(outputSpatialDir, tmp, sep = "/"))
+        r <- projectRaster(r, studyArea, method = "ngb")
         
-        values()
-        plot[[100]])
+        ## putting everything into a tidy data.frame
+        tmp <- values(r)
+        #cNames <- rlang::parse_quosures(paste(colnames(simInfo), collapse=";"))
+        #cNames <- rlang::syms(lNames)
+        #foo <- gather(as.data.frame(x))
         
-        tmp <- stack(paste(), sep = "/"))
-        y <- 
-        r <- stack()
-    }
+        tmp <- data.frame(simInfo, tmp[complete.cases(tmp),])
+        tmp <- gather(tmp, key = "variable", value = "value",
+                      !!lNames)
+        tmp[,"year"] <- as.numeric(gsub("[^0-9]", "", tmp$variable))
+        tmp[,"variable"] <- gsub("[0-9]", "", tmp$variable)
+        tmp[,"variable"] <- substr(tmp$variable, 1, nchar(tmp$variable)-1)
+        tmp[,"simID"] <- simID[i]
+        
+        tmp[,"coverTypes"] <- factor(ct_AT[match(tmp[,"coverTypes"], ct_AT$ID),
+                                           "AIDBSPP"])
+        colnames(tmp)[which(colnames(tmp)=="rho100")] <- "relDensity"
 
+        return(tmp)
+        
+    }
+    stopCluster(cl)
     
     return(list(pools = pools,
-                fluxes  = fluxes))
+                fluxes  = fluxes,
+                spatialOutputs = spatialOutputs))
 }
-stopCluster(cl)
+
 
 ### put all this into single data.frames (one for pools, one for fluxes)
 pools <- do.call("rbind", lapply(outputSummary, function(x) x[["pools"]]))
 fluxes <- do.call("rbind", lapply(outputSummary, function(x) x[["fluxes"]]))
-
-
-require(ggplot2)
-require(dplyr)
-# df <- pools %>%
-#     filter(year != 0)
-# 
-# png(filename= paste0("poolsSummary.png"),
-#     width = 12, height = 8, units = "in", res = 600, pointsize=10)
-# 
-# options(scipen=999)
-# 
-# ggplot(df, aes(x = year, y = totalC/totalArea,
-#                colour = simID, group = simID)) +
-#     facet_wrap(~name) +
-#     geom_line()
-# dev.off()
-
-var <- "NPP"
-outputDir <- "D:/GCBM_sims/singleCellSims/regenFailure/processed_output/spatial"
-x <- list.files(outputDir)
-
-
-
-
-nppR <- stack()
-
-
-df <- fluxes %>%
-    filter(simID == "noRegenFailure",
-           coverType ==1, 
-           year != 0) %>%
-               
-    #fertility == 1,
-           #relDensity == 1)
-           
-    #simID %in% c("test_extreme", "test_extreme_wTransition")) %>%
-    group_by(simID, indicator, coverType, fertility, relDensity, year) %>%
-    summarise(flux_tc = sum(flux_tc),
-              area = sum(area))
-
-
-
-
-
-png(filename= paste0("fluxesSummary.png"),
-    width = 12, height = 20, units = "in", res = 600, pointsize=10)
-
-
-ggplot(df, aes(x = year-2165, y = flux_tc/area,
-               colour = relDensity,
-               #linetype = fertility,
-               group = paste(coverType, fertility, relDensity))) +
-    theme_dark() +
-    ylim(-5, 5) +
-    
-    facet_grid(indicator ~ fertility) +
-    
-    #scale_color_manual(values = c("steelblue1", "firebrick1", "yellow")) +
-    geom_hline(yintercept = 0, linetype = 2,
-               color = "grey75", size = 0.25) +
-    geom_vline(xintercept = 0, linetype = 2,
-               color = "grey75", size = 0.25) +
-    geom_line()
-    
-dev.off()
-
-
-
-################## exploring individual fluxes
-df <- fluxes %>%
-    filter(year != 0,
-           #age_range == "0-19",
-           indicator == "NPP"#,
-           #simID %in% c("test_wLastPassDist", "test_wTransitions")
-           ) %>%
-    group_by(simID, year) %>%
-    summarise(flux_tc = sum(flux_tc),
-              area = sum(area)) %>%
-    merge(simInfo) %>%
-    group_by(year, regenFailure) %>%
-    summarize(tonnesPerHaPerYr = mean(flux_tc/area))
-
-
-ggplot(df, aes(x = year, y = tonnesPerHaPerYr,
-               colour = regenFailure)) +
-    theme_dark() +
-    #facet_wrap( ~ age_range) +
-    geom_line(size = 0.5) +
-    scale_color_manual(values = c("steelblue1", "firebrick1")) +
-    geom_hline(yintercept = 0, linetype = 1,
-               color = "grey75", size = 0.15)
+spatialOutputs <- do.call("rbind", lapply(outputSummary, function(x) x[["spatialOutputs"]]))
+save(pools, file = "pools.RData")
+save(fluxes, file = "fluxes.RData")
+save(spatialOutputs, file = "spatialOutputs.RData")
 
 
