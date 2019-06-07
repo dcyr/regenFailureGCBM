@@ -41,13 +41,21 @@ for (l in unique(simInfo[,"Wild fire"])) {
     # updating density values where applicable
     if (regenFailure) {
         f[studyArea] <- densVals-1
-        f[f==0] <- max(values(cls_dens), na.rm =T)    
+        f[f==0] <- max(values(cls_dens), na.rm =T)
+        ## updating temp density
+        cls_dens_tmp <- f
+        fire_AT <- data.frame(ID = dens_AT$ID,
+                              #name = "Post-fire regeneration density transition",
+                              type = "absolute", ## “absolute”, “relative” , or "yield"
+                              disturbanceType = "Wild Fire",
+                              fertilityUpdate =  "?",
+                              coverTypeUpdate = "?",
+                              relDensityUpdate = dens_AT$ID)
+        write.csv(fire_AT, file = paste0(distDir, "/fire_AT.csv"), row.names = F)
     } else {
-        f[studyArea] <- densVals
+        f[studyArea] <- 1
     }
-    ## updating temp density
-    cls_dens_tmp <- f
-    
+
     writeRaster(f, filename = paste0(distDir, "/", lName, ".tif"),
                 overwrite = TRUE)
     rm(f)
@@ -73,14 +81,7 @@ for (l in unique(simInfo[,"Wild fire"])) {
 }    
 
  
-fire_AT <- data.frame(ID = dens_AT$ID,
-                      #name = "Post-fire regeneration density transition",
-                      type = "absolute", ## “absolute”, “relative” , or "yield"
-                      disturbanceType = "Wild Fire",
-                      fertilityUpdate =  "?",
-                      coverTypeUpdate = "?",
-                      relDensityUpdate = dens_AT$ID)
-write.csv(fire_AT, file = paste0(distDir, "/fire_AT.csv"), row.names = F)
+
     
 # ################################################################################
 # ####  last_pass_disturbance_type

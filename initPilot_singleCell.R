@@ -25,13 +25,14 @@ require(raster)
 #### user defined parameters
 ###############################################################################
 # general input parameters
+regenFailure = F
 yearInit <- 2015
 simDuration <- 300
 n <- 1
 timestep <- 1 # simulation time step (currently only work with 1)
 #siteIndexInt <- 1 # bin width for site index classes
 #r100Int <- 1/3 # bin width for relative density classes
-ageMax <- 150 # max age for yield curves (after which mechantable volumes remain constants)
+ageMax <- 200 # max age for yield curves (after which mechantable volumes remain constants)
 #plotting <- F
 #nCores <- 12 ## number of cores to use during GCBM simulations
 
@@ -43,7 +44,7 @@ simInfo <- list(yearInit = yearInit,
                 ageinit = 100,
                 rho100 = c(0.145, 0.38, 0.735),
                 coverTypes = c(1, 2),
-                "Wild fire" = c(2165))
+                "Wild fire" = c(2115))
 
 
 #projectName <- "test_extreme"
@@ -51,7 +52,6 @@ simInfo <- expand.grid(simInfo,
                        stringsAsFactors = F)
 ################################################################################
 ### creating simulation folder
-regenFailure = F
 simDir <- ifelse(regenFailure,
                  "singleCellSims_regenFailure",
                  "singleCellSims_noRegenFailure") 

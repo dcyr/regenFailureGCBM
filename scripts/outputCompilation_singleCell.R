@@ -98,7 +98,7 @@ outputSummary <- foreach(i = seq_along(simID)) %do% {
     var <- substr(f, 1, nchar(f)-10)
     var <- unique(var)
     
-    clusterN <- length(var)# min(length(simID), floor(0.5*detectCores()))  ### choose number of nodes to add to cluster.
+    clusterN <- max(length(var), detectCores()) ### choose number of nodes to add to cluster.
     #######
     cl = makeCluster(clusterN, outfile = "") ##
     registerDoSNOW(cl)
@@ -146,8 +146,8 @@ outputSummary <- foreach(i = seq_along(simID)) %do% {
 pools <- do.call("rbind", lapply(outputSummary, function(x) x[["pools"]]))
 fluxes <- do.call("rbind", lapply(outputSummary, function(x) x[["fluxes"]]))
 spatialOutputs <- do.call("rbind", lapply(outputSummary, function(x) x[["spatialOutputs"]]))
-save(pools, file = "pools.RData")
-save(fluxes, file = "fluxes.RData")
-save(spatialOutputs, file = "spatialOutputs.RData")
+save(pools, file = "pools_singleCellSims.RData")
+save(fluxes, file = "fluxes_singleCellSims.RData")
+save(spatialOutputs, file = "spatialOutputs_singleCellSims.RData")
 
 
