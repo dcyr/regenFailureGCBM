@@ -117,7 +117,12 @@ file.copy(recliner2gcbmConfig,
 file.copy(tiler,
           paste0(simDir, "/tools/Tiler/tiler.py"),
           overwrite = T)
-file.remove(recliner2gcbmConfig, tiler)
+#file.remove(recliner2gcbmConfig, tiler)
+unlink(c(recliner2gcbmConfig, tiler,
+         "classifiersAT",
+         "input_database",
+         "layers", 
+         "Pothier-Savard"), recursive = TRUE)
 
 
 

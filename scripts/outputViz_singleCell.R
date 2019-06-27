@@ -7,25 +7,18 @@ wwd <- paste(simDir, Sys.Date(), sep = "/")
 dir.create(wwd)
 setwd(wwd)
 ###
-
-## copying useful functions to the wd
-# mainDir <- "C:/Users/cyrdo/Sync/Travail/ECCC/regenFailureGCBM/"
-# sourceDir <- "D:/regenFailureRiskAssessmentData_phase2/2019-01-07_coupe0.62_recup70_contrainteAge"
-# file.copy(paste(mainDir, "scripts/outputCompilationFnc.R", sep = "/"),
-#           ".", overwrite = T)
-
-###
-
-fluxes <- get(load("../outputsCompiled/fluxes.RData"))
-pools <- get(load("../outputsCompiled/pools.RData"))
-spatialOutputs <- get(load("../outputsCompiled/spatialOutputs.RData"))
-
-
 require(ggplot2)
 require(dplyr)
+require(doSNOW)
+require(parallel)
+###
 
+fluxes <- get(load("../outputsCompiled/fluxes_singleCellSims.RData"))
+pools <- get(load("../outputsCompiled/pools_singleCellSims.RData"))
+spatialOutputs <- get(load("../outputsCompiled/spatialOutputs_singleCellSims.RData"))
+
+###
 vars <- unique(spatialOutputs$variable)
-
 
 siVal <- unique(spatialOutputs$siteIndex)
 siLvls <- paste("Site index =", siVal)
@@ -42,14 +35,20 @@ spatialOutputs <- spatialOutputs %>%
            group = paste(simID, coverTypes))
 
 
+clusterN <- 10#min(length(vars), detectCores()) ### choose number of nodes to add to cluster.
+#######
+cl = makeCluster(clusterN, outfile = "") ##
+registerDoSNOW(cl)
 
-for (v in vars) {
+foreach (v = vars) %dopar% {
     
+    require(dplyr)
+    require(ggplot2)
     
     df <- spatialOutputs %>%
     filter(variable == v)
     
-    p <- ggplot(df, aes(x = year, y = value,
+    p <- ggplot(df, aes(x = year-wfEvent, y = value,
                         colour = coverTypes,
                         linetype = simID)) +
         facet_grid(relDensity ~ siteIndex) +
@@ -57,9 +56,11 @@ for (v in vars) {
         #           aes(fill = propCls),xmin = -Inf,xmax = Inf,
         #           ymin = -Inf, ymax = Inf, alpha = 0.3) +
        
-        xlim(2135, 2195) +
-        geom_vline(xintercept = wfEvent,
-                   colour = "grey25", linetype = 3, size = 0.5) +
+        xlim(-25, 75) +
+        geom_vline(xintercept = 0,#wfEvent,
+                   colour = "grey25", linetype = 3, size = 0.25) +
+        geom_hline(yintercept = 0,#wfEvent,
+                   colour = "grey25", linetype = 3, size = 0.25) +
         # scale_fill_manual(name = "Rel. freq.",
         #                   values = cols) +  
         # values = c("(0,0.1] %" = "grey90",
@@ -72,10 +73,11 @@ for (v in vars) {
                             values = c("Black spruce" = "darkgreen",
                                        "Jack pine" = "chocolate4") ) +
         labs(title = v,
-             y= expression("Tonnes C" %.% ha^-1),
-             x="",
-             caption = paste0("Wild fire event occurs in ", wfEvent,
-                             "\nInitial stand age is ", ageInit)) #+
+             y= expression("Tonnes C" %.% ha^-1),#expression("Tonnes C" %.% ha^-1 %.% yr^-1),
+             x="Year\n(relative to wild fire event)"
+             #caption = paste0("Wild fire event occurs in ", wfEvent,
+                             #"\nInitial stand age is ", ageInit)
+        ) #+
         
         # geom_text(aes(x = 0, y = yMax, group = NULL,
         #               #label = paste0("taux annuel médian: ", round(100*medianRate, 3), "%")),
@@ -104,8 +106,6 @@ for (v in vars) {
     )
     
     dev.off()
-
-
 }
-
+stopCluster(cl)
 

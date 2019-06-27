@@ -25,14 +25,14 @@ require(raster)
 #### user defined parameters
 ###############################################################################
 # general input parameters
-regenFailure = F
+regenFailure = T
 yearInit <- 2015
 simDuration <- 300
 n <- 1
 timestep <- 1 # simulation time step (currently only work with 1)
 #siteIndexInt <- 1 # bin width for site index classes
 #r100Int <- 1/3 # bin width for relative density classes
-ageMax <- 200 # max age for yield curves (after which mechantable volumes remain constants)
+ageMax <- 150 # max age for yield curves (after which mechantable volumes remain constants)
 #plotting <- F
 #nCores <- 12 ## number of cores to use during GCBM simulations
 
@@ -41,7 +41,7 @@ ageMax <- 200 # max age for yield curves (after which mechantable volumes remain
 simInfo <- list(yearInit = yearInit,
                 simDuration = simDuration,
                 siteIndex = 8:15,
-                ageinit = 100,
+                ageinit = 50,
                 rho100 = c(0.145, 0.38, 0.735),
                 coverTypes = c(1, 2),
                 "Wild fire" = c(2115))
